@@ -1,9 +1,12 @@
 
 import React from 'react';
+import Posts from '../components/Posts';
 
 function Home() {
   return (
-    <div>Home</div>
+    <div className='w-full px-[5%] mt-[2%]'>
+      <Posts />
+    </div>
   )
 }
 

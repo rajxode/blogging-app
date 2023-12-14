@@ -9,20 +9,16 @@ function Navbar() {
 
     return (
         <>
-            <div className='w-full min-h-[55px] h-auto bg-gray-200 flex text-black px-[5%] 
+            <div className='w-full min-h-[55px] h-auto bg-[#F2F1EB] flex px-[5%] 
                 flex-col shrink-0 shadow'
             >
                 <div className='flex justify-between items-center h-[55px]'>
 
                     <div className='flex items-center w-full md:w-1/2 lg:w-3/4'>
-                        <div className='text-2xl font-bold'>
-                            Blogger
-                        </div>
-                        <div className='flex justify-between items-center'>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
+                        <div className='text-2xl font-bold text-[#FFB534]'>
+                            <Link to='/'>
+                                Blogging
+                            </Link>
                         </div>
                     </div>
                     
@@ -30,19 +26,20 @@ function Navbar() {
                         xl:w-[15%] items-center'
                     >
                         <div>
-                            <Link className='underline'>
+                            <Link className='underline text-yellow-700' to='/login'>
                                 Log In
                             </Link>
                         </div>
                         <div>
-                            <button className='text-white bg-blue-400 font-semibold px-2 py-1 rounded-full shadow'>
+                            <Link to='/signup' 
+                                className='text-white bg-[#f8bf5e] font-semibold px-2 py-1 rounded-full hover:bg-[#dfa94e] flex items-center shadow-sm'>
                                 Get Started
-                            </button>
+                            </Link>
                         </div>
                     </div>
 
-                    <div className='sm:hidden text-xl font-semibold w-auto px-2 py-1 rounded 
-                        hover:bg-slate-400 hover:text-white cursor-pointer'
+                    <div className='sm:hidden text-xl font-semibold w-auto px-2 py-1 rounded text-yellow-600 
+                        hover:bg-yellow-500 hover:text-white cursor-pointer'
                         onClick={() => setShowMenu(!showMenu)}
                     >
                         {
