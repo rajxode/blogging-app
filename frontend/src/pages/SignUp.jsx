@@ -1,10 +1,14 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axiosInstance from '../utils/axios';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { createUserThunk } from '../reducers/authReducer';
+
 
 function SignUp() {
     
+    const dispatch = useDispatch();
 
     const [formData,setFormData] = useState({
         name:'',
@@ -15,11 +19,11 @@ function SignUp() {
 
     const handleSubmit = async(e) => {
         try {
-            console.log('button clicked');
-            const response = await axiosInstance.post('/users/create',{formData});
-            console.log(response.data);
+            e.preventDefault();
+            await dispatch(createUserThunk(formData));
+            toast.success('User created, Please Login to Continue');
         } catch (error) {
-            console.log(error);
+            toast.error(error.message);
         }
     }
     

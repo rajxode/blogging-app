@@ -5,7 +5,7 @@ function SinglePost(props) {
     const { image , heading , author , createdAt, content } = props.post;
 
     return (
-        <div className='flex w-[85%] h-[230px] my-2 justify-between'>
+        <div className='flex w-[85%] min-h-[230px] h-auto my-2 justify-between'>
             <div className='h-full w-[35%]'>
                 <img src={image} alt="image" className='h-full w-full rounded'/>
             </div>

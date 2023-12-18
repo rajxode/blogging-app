@@ -1,11 +1,15 @@
 
 import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
+import { authSelector } from '../reducers/authReducer';
 
 function Navbar() {
     
+    const { user } = useSelector(authSelector);
+
     const [showMenu,setShowMenu] = useState(false);
+
 
     return (
         <>
@@ -26,15 +30,29 @@ function Navbar() {
                         xl:w-[15%] items-center'
                     >
                         <div>
-                            <Link className='underline text-yellow-700' to='/login'>
-                                Log In
-                            </Link>
+                            {
+                                user
+                                ?
+                                null
+                                :
+                                <Link className='underline text-yellow-700' to='/login'>
+                                    Log In
+                                </Link>
+                            }
                         </div>
                         <div>
-                            <Link to='/signup' 
-                                className='text-white bg-[#f8bf5e] font-semibold px-2 py-1 rounded-full hover:bg-[#dfa94e] flex items-center shadow-sm'>
-                                Get Started
-                            </Link>
+                            {
+                                user
+                                ?
+                                <button>
+                                    Log Out
+                                </button>
+                                :
+                                <Link to='/signup' 
+                                    className='text-white bg-[#f8bf5e] font-semibold px-2 py-1 rounded-full hover:bg-[#dfa94e] flex items-center shadow-sm'>
+                                    Get Started
+                                </Link>
+                            }
                         </div>
                     </div>
 
@@ -58,10 +76,29 @@ function Navbar() {
                     ?
                     <div className='w-full flex flex-col pb-1'>
                         <div className='w-full h-[30px] border-b border-slate-300 flex items-center'>
-                            Log In
+                            {
+                                user
+                                ?
+                                null
+                                :
+                                <Link className='underline text-yellow-700' to='/login'>
+                                    Log In
+                                </Link>
+                            }
                         </div>
                         <div className='w-full h-[30px] flex items-center'>
-                            Get Started
+                            {
+                                user
+                                ?
+                                <button>
+                                    Log Out
+                                </button>
+                                :
+                                <Link to='/signup' 
+                                    className='text-white bg-[#f8bf5e] font-semibold px-2 py-1 rounded-full hover:bg-[#dfa94e] flex items-center shadow-sm'>
+                                    Get Started
+                                </Link>
+                            }
                         </div>
                     </div>   
                     :
