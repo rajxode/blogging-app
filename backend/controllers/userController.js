@@ -25,8 +25,7 @@ module.exports.create = async(req,res) => {
         });
 
         return res.status(201).json({
-            message:'user created',
-            user
+            success:true
         })
 
     } catch (error) {
@@ -87,5 +86,45 @@ module.exports.login = async(req,res) => {
         return res.status(500).json({
             error:error.message
         })
+    }
+}
+
+
+
+module.exports.logout = async(req,res) => {
+    try {
+        res.cookie('token',null,{
+            expires: new Date(
+                Date.now()
+            ),
+            httpOnly: true,
+        });
+
+        return res.status(200).json({
+            success:true,
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            error:error.message
+        })
+    }
+}
+
+
+module.exports.myData = async(req,res) => {
+    try {
+        const user = req.user;
+
+        user.password = undefined;
+
+        return res.status(200).json({
+            success:true,
+            user
+        });
+    } catch (error) {
+        return res.status(500).json({
+            error:error.message
+        });
     }
 }

@@ -10,9 +10,12 @@ export const createUserThunk = createAsyncThunk(
     async(formData,thunkAPI) => {
         try {
             const response = await axiosInstance.post('/users/create',{formData});
-            console.log(response.data);
+            return response.data;
         } catch (error) {
-            console.log(error);
+            return {
+                success:false,
+                message:error.response.data.error
+            }
         }
     }
 );
@@ -25,12 +28,65 @@ export const loginUserThunk = createAsyncThunk(
         try {
             const response = await axiosInstance.post('/users/login',{formData});
             const { token , user } = response.data;
-            localStorage.setItem('token',token);
+            localStorage.setItem('token',JSON.stringify(token));
             thunkAPI.dispatch(setUser(user));
+            return response.data;
+        } catch (error) {
+            return {
+                success:false,
+                message:error.response.data.error
+            }
+        }
+    }
+)
+
+export const logoutUserThunk = createAsyncThunk(
+    'auth/logout',
+    async(args,thunkAPI) => {
+        try {
+            const isToken = localStorage.getItem('token');
+            if(!isToken){
+                return;
+            }
+            
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.get('/users/logout',{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            localStorage.removeItem('token');
+            thunkAPI.dispatch(setUser(null));
+        } catch (error) {
+            return {
+                success:false,
+                message:error.response.data.error
+            }
+        }
+    }
+)
+
+
+export const getLoggedInUserThunk = createAsyncThunk(
+    'auth/getLoggedInUser',
+    async(args,thunkAPI) => {
+        try {
+            console.log('get details');
+            const isToken = localStorage.getItem('token');
+            if(!isToken){
+                return;
+            }
+            const token = JSON.parse(isToken);
+            const response = await axiosInstance.get('/users/mydetails',{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            thunkAPI.dispatch(setUser(response.data.user));
         } catch (error) {
             console.log(error);
         }
-    }
+    } 
 )
 
 

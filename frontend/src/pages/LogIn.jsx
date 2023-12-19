@@ -1,6 +1,6 @@
 
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -16,15 +16,23 @@ function Login() {
         password:''
     });
 
+    useEffect(() => {
+        document.title = 'Login | Blogging';
+    },[]);
+
     const handleSubmit = async(e) => {
         try {
             e.preventDefault();
             const result = await dispatch(loginUserThunk(formData));
-            toast.success('User logged In');
-            navigate('/profile');
-
+            if(result.payload.success){
+                toast.success('User logged In');
+                navigate('/');
+            }
+            else{
+                toast.error(result.payload.message);
+            }
         } catch (error) {
-            console.log(error);
+            toast.error(error.message);
         }
     }
 

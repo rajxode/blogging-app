@@ -1,15 +1,28 @@
 
 import React, { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { authSelector } from '../reducers/authReducer';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { authSelector, logoutUserThunk } from '../reducers/authReducer';
+import { toast } from 'react-toastify';
+
 
 function Navbar() {
     
     const { user } = useSelector(authSelector);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [showMenu,setShowMenu] = useState(false);
 
+    const handleLogOut = async(e) => {
+        try {
+            const result = await dispatch(logoutUserThunk());
+            toast.success('User logged out');
+            navigate('/');
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
 
     return (
         <>
@@ -18,14 +31,44 @@ function Navbar() {
             >
                 <div className='flex justify-between items-center h-[55px]'>
 
-                    <div className='flex items-center w-full md:w-1/2 lg:w-3/4'>
+                    <div className='flex justify-start items-center w-full md:w-1/2 lg:w-3/4'>
                         <div className='text-2xl font-bold text-[#FFB534]'>
                             <Link to='/'>
                                 Blogging
                             </Link>
                         </div>
+
+
+                        {   
+                            user
+                            ? 
+                            <div className='flex justify-around items-center w-1/4 px-2 ml-3'>
+                                <div className='flex items-center mr-2 font-semibold text-yellow-700 hover:bg-[#ecc98d] px-2 py-1 rounded-full cursor-pointer hover:text-white'>
+                                    <Link to='/profile'>
+                                        <span>
+                                            <i class="fa-solid fa-user"></i>
+                                        </span>
+                                        &nbsp;
+                                        My Profile
+                                    </Link>
+                                </div>
+                                <div className='flex items-center mr-2 font-semibold text-yellow-700 hover:bg-[#ecc98d] px-2 py-1 rounded-full cursor-pointer hover:text-white'>
+                                    <Link to='#'>
+                                        <span>
+                                            <i class="fa-solid fa-plus"></i>
+                                        </span>
+                                        &nbsp;
+                                        Add New
+                                    </Link>
+                                </div>
+                            </div>
+                            :
+                            null
+                        }
+
                     </div>
                     
+
                     <div className='hidden sm:flex justify-between w-2/5 md:w-1/4 lg:w-[20%] 
                         xl:w-[15%] items-center'
                     >
@@ -35,7 +78,7 @@ function Navbar() {
                                 ?
                                 null
                                 :
-                                <Link className='underline text-yellow-700' to='/login'>
+                                <Link className='underline font-semibold text-yellow-700' to='/login'>
                                     Log In
                                 </Link>
                             }
@@ -44,7 +87,9 @@ function Navbar() {
                             {
                                 user
                                 ?
-                                <button>
+                                <button onClick={handleLogOut}
+                                        className='text-yellow-700 font-semibold hover:underline'
+                                    >
                                     Log Out
                                 </button>
                                 :
@@ -81,7 +126,7 @@ function Navbar() {
                                 ?
                                 null
                                 :
-                                <Link className='underline text-yellow-700' to='/login'>
+                                <Link className='text-yellow-700' to='/login'>
                                     Log In
                                 </Link>
                             }
@@ -90,12 +135,13 @@ function Navbar() {
                             {
                                 user
                                 ?
-                                <button>
+                                <button className='text-yellow-700'>
                                     Log Out
                                 </button>
                                 :
                                 <Link to='/signup' 
-                                    className='text-white bg-[#f8bf5e] font-semibold px-2 py-1 rounded-full hover:bg-[#dfa94e] flex items-center shadow-sm'>
+                                    className='text-yellow-700'
+                                    >
                                     Get Started
                                 </Link>
                             }

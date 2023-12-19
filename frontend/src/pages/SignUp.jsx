@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link , useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { createUserThunk } from '../reducers/authReducer';
@@ -9,6 +9,8 @@ import { createUserThunk } from '../reducers/authReducer';
 function SignUp() {
     
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
 
     const [formData,setFormData] = useState({
         name:'',
@@ -17,11 +19,22 @@ function SignUp() {
     });
 
 
+    useEffect(() => {
+        document.title = 'SignUp | Blogging';
+    },[]);
+
+
     const handleSubmit = async(e) => {
         try {
             e.preventDefault();
-            await dispatch(createUserThunk(formData));
-            toast.success('User created, Please Login to Continue');
+            const result = await dispatch(createUserThunk(formData));
+            if(result.payload.success){
+                toast.success('User created, Please Login to Continue');
+                navigate('/login');   
+            }
+            else{
+                toast.error(result.payload.message);
+            }
         } catch (error) {
             toast.error(error.message);
         }
