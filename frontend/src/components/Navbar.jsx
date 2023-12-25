@@ -42,7 +42,7 @@ function Navbar() {
                         {   
                             user
                             ? 
-                            <div className='flex justify-around items-center w-1/4 px-2 ml-3'>
+                            <div className='hidden md:flex justify-around items-center min-w-1/4 px-2 ml-3'>
                                 <div className='flex items-center mr-2 font-semibold text-yellow-700 hover:bg-[#ecc98d] px-2 py-1 rounded-full cursor-pointer hover:text-white'>
                                     <Link to='/profile'>
                                         <span>
@@ -120,7 +120,33 @@ function Navbar() {
                     showMenu
                     ?
                     <div className='w-full flex flex-col pb-1'>
-                        <div className='w-full h-[30px] border-b border-slate-300 flex items-center'>
+                        {   
+                            user
+                            ? 
+                            <div className='flex flex-col md:hidden w-full'>
+                                <div className='w-full flex items-center text-yellow-700 h-[30px] '>
+                                    <Link to='/profile'>
+                                        <span>
+                                            <i class="fa-solid fa-user"></i>
+                                        </span>
+                                        &nbsp;
+                                        My Profile
+                                    </Link>
+                                </div>
+                                <div className='w-full flex items-center text-yellow-700 h-[30px] '>
+                                    <Link to='#'>
+                                        <span>
+                                            <i class="fa-solid fa-plus"></i>
+                                        </span>
+                                        &nbsp;
+                                        Add New
+                                    </Link>
+                                </div>
+                            </div>
+                            :
+                            null
+                        }
+                        <div className='w-full h-[30px]  flex items-center'>
                             {
                                 user
                                 ?
