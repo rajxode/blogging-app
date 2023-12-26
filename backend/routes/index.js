@@ -10,5 +10,6 @@ router.route('/').get((req,res) => {
 })
 
 router.use('/users',require('./users'));
+router.use('/blogs',require('./blog'));
 
 module.exports = router;
