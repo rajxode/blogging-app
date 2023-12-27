@@ -71,7 +71,6 @@ export const getLoggedInUserThunk = createAsyncThunk(
     'auth/getLoggedInUser',
     async(args,thunkAPI) => {
         try {
-            console.log('get details');
             const isToken = localStorage.getItem('token');
             if(!isToken){
                 return;

@@ -6,6 +6,7 @@ import Login from './pages/LogIn';
 import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
 import AddBlog from './pages/AddBlog';
+import SingleBlogPage from './pages/SingleBlogPage';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/addblog' element={<AddBlog />} />
+          <Route path='/singleblog' element={<SingleBlogPage />} />
         </Route>
       </>
     )
