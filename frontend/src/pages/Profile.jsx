@@ -20,6 +20,12 @@ function Profile() {
        dispatch(getLoggedInUserThunk()); 
     },[])
 
+    useEffect(() => {
+        if(!user){
+            dispatch(getLoggedInUserThunk());
+        }
+    },[user]);
+
     return(
         <div className='w-full px-[5%] py-[2%] flex flex-col'>
             <div className="w-full mb-5">
