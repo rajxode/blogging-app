@@ -17,7 +17,7 @@ function Login() {
     });
 
     useEffect(() => {
-        document.title = 'Login | Blogging';
+        document.title = 'Login | Medium';
     },[]);
 
     const handleSubmit = async(e) => {
@@ -37,24 +37,33 @@ function Login() {
     }
 
     return (
-        <div className='w-full h-[92vh] flex justify-center items-center px-[5%]'>
-            <div className='w-full md:w-4/5 lg:w-2/5 bg-[#f3f3f2] h-1/3 rounded 
-                shadow flex flex-col justify-between px-[3%] py-[1%]'
+        <div className='absolute w-full bg-[#f3f3f2] opacity-90 top-0 left-0 h-screen'>
+            <div className='w-full h-full flex justify-center items-center px-[5%]'>
+            <div className='w-full md:w-4/5 lg:w-2/5 bg-white h-2/5 rounded 
+                shadow flex flex-col justify-between px-[3%] py-[1%] relative'
                 >
-                <div className='w-full h-1/5 flex justify-center'>
-                    <h2 className='text-2xl font-bold text-[#FFB534]'>
-                        Login
+
+                <div className='absolute top-1 right-2 rounded-full cursor-pointer hover:bg-slate-200'>
+                <Link to='/' className='px-[9px] py-[3px]'>
+                        X
+                    </Link>
+                </div>
+
+                <div className='w-full h-1/5 flex justify-center items-center'>
+                    <h2 className='text-2xl font-semibold font-serif'>
+                        Sign In with your email
                     </h2>
+                    
                 </div>
                 
-                <div className='w-full h-2/5 flex flex-col justify-between items-center'>
+                <div className='w-full h-2/5 flex flex-col justify-around items-center'>
                     <div className='w-full'>
                         <input 
                             type="email" 
                             placeholder='Email'
                             value={formData.email}
                             onChange={(e) => setFormData({...formData, email:e.target.value})}
-                            className='w-full h-[35px] px-2 bg-slate-200 rounded py-1 focus:outline-none'
+                            className='w-full h-[35px] px-2 py-1 focus:outline-none border-b border-black'
                             />
                     </div>
                     <div className='w-full'>
@@ -63,25 +72,25 @@ function Login() {
                             placeholder='Password'
                             value={formData.password}
                             onChange={(e) => setFormData({...formData, password:e.target.value})}
-                            className='w-full h-[35px] px-2 bg-slate-200 rounded py-1 focus:outline-none'
+                            className='w-full h-[35px] px-2 py-1 focus:outline-none border-b border-black'
                             />
                     </div>
                 </div>
                 
-                <div className='w-full h-1/4 flex flex-col justify-between items-center'>
-                    <button className='bg-[#f8bf5e] px-2 py-1 w-full rounded shadow text-white 
-                            font-semibold hover:bg-[#dfa94e]'
+                <div className='w-full h-[30%] flex flex-col justify-around items-center'>
+                    <button className='bg-[#131313] px-2 py-1 w-2/3 rounded-full shadow text-white hover:bg-black'
                         onClick={handleSubmit}
                         >
                         Log In
                     </button>
                     <div>
-                        <Link to='/signup' className='text-yellow-700 underline'>
+                        <Link to='/signup' className='text-[#1a8917] underline underline-offset-4'>
                             Create New Account
                         </Link>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

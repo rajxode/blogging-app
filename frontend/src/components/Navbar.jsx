@@ -14,6 +14,17 @@ function Navbar() {
 
     const [showMenu,setShowMenu] = useState(false);
 
+    const [scrolled,setScrolled] = useState(false);
+
+    window.addEventListener('scroll',() => {
+        if(window.scrollY > 400) {
+            setScrolled(true);
+        }
+        else{
+            setScrolled(false);
+        }
+    });
+
     const handleLogOut = async(e) => {
         try {
             const result = await dispatch(logoutUserThunk());
@@ -29,61 +40,51 @@ function Navbar() {
     },[]);
 
     return (
-        <>
-            <div className='w-full min-h-[55px] h-auto bg-[#F2F1EB] flex px-[5%] 
-                flex-col shrink-0 shadow'
+        <div className='w-full relative'>
+            <div className={`w-full min-h-[75px] h-auto  flex px-[10%] 
+                flex-col shrink-0 border-b border-black justify-center sticky top-0 left-0 ${scrolled ? 'bg-white' : 'bg-[#FFC017]'}`}
             >
-                <div className='flex justify-between items-center h-[55px]'>
+                <div className='flex justify-between items-center h-[55px] text-black'>
 
                     <div className='flex justify-start items-center w-full md:w-1/2 lg:w-3/4'>
-                        <div className='text-2xl font-bold text-[#FFB534]'>
+                        <div className='text-3xl font-bold font-serif'>
                             <Link to='/'>
-                                Blogging
+                                <span><i class="fa-brands fa-medium"></i></span> Medium
                             </Link>
                         </div>
-
-
-                        {   
-                            user
-                            ? 
-                            <div className='hidden md:flex justify-around items-center min-w-1/4 px-2 ml-3'>
-                                <div className='flex items-center mr-2 font-semibold text-yellow-700 hover:bg-[#ecc98d] px-2 py-1 rounded-full cursor-pointer hover:text-white'>
-                                    <Link to='/profile'>
-                                        <span>
-                                            <i class="fa-solid fa-user"></i>
-                                        </span>
-                                        &nbsp;
-                                        My Profile
-                                    </Link>
-                                </div>
-                                <div className='flex items-center mr-2 font-semibold text-yellow-700 hover:bg-[#ecc98d] px-2 py-1 rounded-full cursor-pointer hover:text-white'>
-                                    <Link to='/addblog'>
-                                        <span>
-                                            <i class="fa-solid fa-plus"></i>
-                                        </span>
-                                        &nbsp;
-                                        Add New
-                                    </Link>
-                                </div>
-                            </div>
-                            :
-                            null
-                        }
 
                     </div>
                     
 
-                    <div className='hidden sm:flex justify-between w-2/5 md:w-1/4 lg:w-[20%] 
-                        xl:w-[15%] items-center'
+                    <div className='hidden sm:flex justify-between w-auto items-center'
                     >
                         <div>
                             {
                                 user
                                 ?
-                                null
+                                <div className='hidden md:flex justify-around items-center min-w-1/4 px-2 ml-3'>
+                                    <div className='flex items-center mr-2 px-2 py-1 rounded-full cursor-pointer'>
+                                        <Link to='/profile'>
+                                            <span>
+                                                <i class="fa-solid fa-user"></i>
+                                            </span>
+                                            &nbsp;
+                                            My Profile
+                                        </Link>
+                                    </div>
+                                    <div className='flex items-center mr-2 px-2 py-1 rounded-full cursor-pointer'>
+                                        <Link to='/addblog'>
+                                            <span>
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </span>
+                                            &nbsp;
+                                            Write
+                                        </Link>
+                                    </div>
+                                </div>
                                 :
-                                <Link className='underline font-semibold text-yellow-700' to='/login'>
-                                    Log In
+                                <Link className='mx-4 hover:underline' to='/login'>
+                                    Sign In
                                 </Link>
                             }
                         </div>
@@ -92,21 +93,21 @@ function Navbar() {
                                 user
                                 ?
                                 <button onClick={handleLogOut}
-                                        className='text-yellow-700 font-semibold hover:underline'
+                                        className='hover:underline'
                                     >
                                     Log Out
                                 </button>
                                 :
                                 <Link to='/signup' 
-                                    className='text-white bg-[#f8bf5e] font-semibold px-2 py-1 rounded-full hover:bg-[#dfa94e] flex items-center shadow-sm'>
+                                    className={`text-white px-3 py-1 rounded-full hover:bg-[#2c2c2c] flex items-center shadow-sm ${scrolled ? 'bg-[#1a8917]' : 'bg-black'} `}>
                                     Get Started
                                 </Link>
                             }
                         </div>
                     </div>
 
-                    <div className='sm:hidden text-xl font-semibold w-auto px-2 py-1 rounded text-yellow-600 
-                        hover:bg-yellow-500 hover:text-white cursor-pointer'
+                    <div className='sm:hidden text-xl w-auto px-2 py-1 rounded
+                        hover:bg-black hover:text-white cursor-pointer'
                         onClick={() => setShowMenu(!showMenu)}
                     >
                         {
@@ -141,10 +142,10 @@ function Navbar() {
                                     <div className='w-full flex items-center text-yellow-700 h-[30px] '>
                                         <Link to='addblog'>
                                             <span>
-                                                <i class="fa-solid fa-plus"></i>
+                                                <i class="fa-regular fa-pen-to-square"></i>
                                             </span>
                                             &nbsp;
-                                            Add New
+                                            Write
                                         </Link>
                                     </div>
                                 </div>
@@ -177,7 +178,7 @@ function Navbar() {
                 }
             </div>
             <Outlet />
-        </>
+        </div>
     )
 }
 

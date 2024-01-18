@@ -20,7 +20,7 @@ function SignUp() {
 
 
     useEffect(() => {
-        document.title = 'SignUp | Blogging';
+        document.title = 'SignUp | Medium';
     },[]);
 
 
@@ -41,22 +41,32 @@ function SignUp() {
     }
     
     return (
-        <div className='w-full h-[92vh] flex justify-center items-center px-[5%]'>
-            <div className='w-full md:w-4/5 lg:w-2/5 bg-[#f3f3f2] h-2/5 rounded shadow flex flex-col justify-between px-[3%] py-[1%]'>
-                <div className='w-full h-1/5 flex justify-center'>
-                    <h2 className='text-2xl font-bold text-[#FFB534]'>
-                        Sign Up
+        <div className='absolute w-full bg-[#f3f3f2] opacity-90 top-0 left-0 h-screen'>
+        <div className='w-full h-full flex justify-center items-center px-[5%]'>
+            <div className='w-full md:w-4/5 lg:w-2/5 bg-white h-1/2 rounded shadow flex 
+                flex-col justify-between px-[3%] py-[1%] relative'
+                >
+                
+                <div className='absolute top-1 right-2 rounded-full cursor-pointer hover:bg-slate-200'>
+                    <Link to='/' className='px-[9px] py-[3px]'>
+                        X
+                    </Link>
+                </div>
+
+                <div className='w-full h-1/5 flex justify-center items-center'>
+                    <h2 className='text-2xl font-semibold font-serif'>
+                        Sign Up with your email
                     </h2>
                 </div>
                 
-                <div className='w-full h-[45%] flex flex-col justify-between items-center'>
+                <div className='w-full h-[45%] flex flex-col justify-around items-center'>
                     <div className='w-full'>
                         <input 
                             type="text" 
                             placeholder='Name'
                             value={formData.name}
                             onChange={(e) => setFormData({...formData,name:e.target.value})}
-                            className='w-full h-[35px] px-2 bg-slate-200 rounded py-1 focus:outline-none'
+                            className='w-full h-[35px] px-2 border-b border-black py-1 focus:outline-none'
                             />
                     </div>
                     <div className='w-full'>
@@ -65,7 +75,7 @@ function SignUp() {
                             placeholder='Email'
                             value={formData.email}
                             onChange={(e) => setFormData({...formData,email:e.target.value})}
-                            className='w-full h-[35px] px-2 bg-slate-200 rounded py-1 focus:outline-none'
+                            className='w-full h-[35px] px-2 border-b border-black py-1 focus:outline-none'
                             />
                     </div>
                     <div className='w-full'>
@@ -74,25 +84,26 @@ function SignUp() {
                             placeholder='Password'
                             value={formData.password}
                             onChange={(e) => setFormData({...formData,password:e.target.value})}
-                            className='w-full h-[35px] px-2 bg-slate-200 rounded py-1 focus:outline-none'
+                            className='w-full h-[35px] px-2 border-b border-black py-1 focus:outline-none'
                             />
                     </div>
                 </div>
                 
-                <div className='w-full h-1/4 flex flex-col justify-between items-center'>
-                    <button className='bg-[#f8bf5e] px-2 py-1 w-full rounded shadow text-white font-semibold hover:bg-[#dfa94e]'
+                <div className='w-full h-1/4 flex flex-col justify-around items-center'>
+                    <button className='bg-[#131313] px-2 py-1 w-2/3 rounded-full shadow text-white hover:bg-black'
                         onClick={handleSubmit}>
                         Create Account
                     </button>
                     <div>
                         Already have an account?
                         &nbsp;
-                        <Link to='/login' className='text-yellow-700 underline'>
+                        <Link to='/login' className='text-[#1a8917] underline'>
                             Sign In
                         </Link>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     )
 }
