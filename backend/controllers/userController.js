@@ -3,27 +3,33 @@ const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-
+// create a new user
 module.exports.create = async(req,res) => {
     try {
 
+        // user's data
         const { name , email , password } = req.body.formData;
 
+        // check whether the user already exist or not
         const userExist = await User.findOne({email});
 
+        // if user exists
         if(userExist){
             return res.status(400).json({error:'User already Exists'});
         }
 
+        // encrypt user's password
         const salt = await bcryptjs.genSalt(10);
         const hashedPassword = await bcryptjs.hash(password,salt);
 
+        // create a new user
         const user = await User.create({
             name,
             email,
             password:hashedPassword
         });
 
+        // return response
         return res.status(201).json({
             success:true
         })
@@ -34,28 +40,34 @@ module.exports.create = async(req,res) => {
 }
 
 
-
+// for logging in user
 module.exports.login = async(req,res) => {
     try {
-
+        // user's data
         const { email , password } = req.body.formData;
 
+        // find user
         const user = await User.findOne({email});
 
+        // if user not found
         if(!user){
             return res.status(400).json({
                 error:"User doesn't Exists"
             });
         }
 
+        // if user found, then check password
         const found = await bcryptjs.compare(password,user.password);
 
+        // if password doesn't match
         if(!found){
             return res.status(401).json({
                 error:"Wrong email / password"
             });
         }
 
+        // if password matches
+        // create jwt token
         const token = jwt.sign(
                         {id:user._id},
                         process.env.JWT_SECRET,
@@ -64,6 +76,7 @@ module.exports.login = async(req,res) => {
                         }
                     );
         
+        // cookie option for storing the token
         const cookieOption = {
             // time in which the cookie will expire
             expires: new Date(
@@ -75,6 +88,7 @@ module.exports.login = async(req,res) => {
         
         user.password = undefined;
 
+        // return response
         return res.status(200).cookie('token',token,cookieOption).json({
             success:true,
             user,
@@ -82,7 +96,7 @@ module.exports.login = async(req,res) => {
         })
 
     } catch (error) {
-        
+        // return response
         return res.status(500).json({
             error:error.message
         })
@@ -90,9 +104,10 @@ module.exports.login = async(req,res) => {
 }
 
 
-
+// for logging out user
 module.exports.logout = async(req,res) => {
     try {
+        // remove the cookie
         res.cookie('token',null,{
             expires: new Date(
                 Date.now()
@@ -100,6 +115,7 @@ module.exports.logout = async(req,res) => {
             httpOnly: true,
         });
 
+        // return response
         return res.status(200).json({
             success:true,
         });
@@ -111,13 +127,15 @@ module.exports.logout = async(req,res) => {
     }
 }
 
-
+// return user's data
 module.exports.myData = async(req,res) => {
     try {
+        // get loggedIn user's data
         const user = req.user;
 
         user.password = undefined;
 
+        // return the data
         return res.status(200).json({
             success:true,
             user

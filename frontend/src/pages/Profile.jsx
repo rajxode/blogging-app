@@ -27,12 +27,12 @@ function Profile() {
     },[user]);
 
     return(
-        <div className='w-full px-[5%] py-[2%] flex flex-col'>
-            <div className="w-full mb-5">
+        <div className='w-full py-[2%] flex flex-col'>
+            {/* <div className="w-full mb-5">
                 <h1 className='text-3xl font-bold text-center'>
                     Hello { user.name }, Your blogs
                 </h1>
-            </div>
+            </div> */}
             <div className="w-full">
                 <Posts />
             </div>

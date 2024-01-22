@@ -26,7 +26,7 @@ function Login() {
             const result = await dispatch(loginUserThunk(formData));
             if(result.payload.success){
                 toast.success('User logged In');
-                navigate('/');
+                navigate('/profile');
             }
             else{
                 toast.error(result.payload.message);

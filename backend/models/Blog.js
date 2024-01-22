@@ -14,22 +14,30 @@ const blogSchema = new mongoose.Schema({
     },
     content:{
         type:String,
-        required:[true,'Enter a summary of blog']
+        required:[true,'Enter Content of the blog']
     },
     thumbnail:{
-        type:String,
+        // photo id in cloudinary
+        id:{
+            type:String,
+        },
+        // url from cloudinary
+        secure_url:{
+            type:String,
+        }
     },
+    // user who created the blog
     user:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:User
+        ref:'User'
     },
-    createdAt:{
-        type:String,
-        required:[true,'Please provide creation time']
-    }
-});
+},
+{
+    timestamps:true
+}
+);
 
 // model
-const Blog = mongoose.Schema('Blog',blogSchema);
+const Blog = mongoose.model('Blog',blogSchema);
 
 module.exports = Blog;

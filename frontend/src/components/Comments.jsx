@@ -31,7 +31,7 @@ function Comments() {
 
     return (
         <div className='w-full mt-4 flex flex-col justify-between items-center 
-                bg-[#f2f1eb] py-3 rounded shadow'>
+                py-3 rounded'>
             <div className='w-full flex flex-col justify-between items-center'>
                 {
                     comments.map((comment,i) => <SingleComment key={i} comment={comment} />)
@@ -40,7 +40,7 @@ function Comments() {
             <div className='w-full flex justify-center items-center'>
                 <input 
                     type="text"
-                    placeholder='Add a comment...'
+                    placeholder='What are your thoughts?'
                     value={commentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
                     required

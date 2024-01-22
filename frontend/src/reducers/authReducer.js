@@ -40,21 +40,25 @@ export const loginUserThunk = createAsyncThunk(
     }
 )
 
+
+// log out user
 export const logoutUserThunk = createAsyncThunk(
     'auth/logout',
     async(args,thunkAPI) => {
         try {
+            // get logged in user's token from localstorage
             const isToken = localStorage.getItem('token');
             if(!isToken){
                 return;
             }
-            
             const token = JSON.parse(isToken);
+            // api call
             const response = await axiosInstance.get('/users/logout',{
                 headers:{
                     'Authorization':`Bearer ${token}`
                 }
             });
+            // remove token from localstorage
             localStorage.removeItem('token');
             thunkAPI.dispatch(setUser(null));
         } catch (error) {
@@ -67,23 +71,30 @@ export const logoutUserThunk = createAsyncThunk(
 )
 
 
+// get data of logged in user 
 export const getLoggedInUserThunk = createAsyncThunk(
     'auth/getLoggedInUser',
     async(args,thunkAPI) => {
         try {
+            // get token 
             const isToken = localStorage.getItem('token');
             if(!isToken){
                 return;
             }
             const token = JSON.parse(isToken);
+            // api call
             const response = await axiosInstance.get('/users/mydetails',{
                 headers:{
                     'Authorization':`Bearer ${token}`
                 }
             });
+            // store the data
             thunkAPI.dispatch(setUser(response.data.user));
         } catch (error) {
-            console.log(error);
+            return {
+                success:false,
+                message:error.response.data.error
+            }
         }
     } 
 )
@@ -117,9 +128,11 @@ const authSlice = createSlice({
 });
 
 
-
+// reducer
 export const authReducer = authSlice.reducer;
 
+// actions
 export const { setUser } = authSlice.actions;
 
+// selector
 export const authSelector = (state) => state.authReducer;
