@@ -6,7 +6,7 @@ const cloudinary = require('cloudinary').v2;
 module.exports.getBlogs = async(req,res) => {
     try {
         // get all blogs
-        const blogs = await Blog.find({});
+        const blogs = await Blog.find({}).populate('user', 'name email');
 
         // return response
         return res.status(200).json({
@@ -60,13 +60,37 @@ module.exports.addBlog = async(req,res) => {
 
         // return response
         return res.status(201).json({
-            success:true,
-            blog
+            success:true
         });
 
     } catch (error) {
-        return res.status(501).json({
+        return res.status(500).json({
             error:'Internal Server Error'
         });
+    }
+}
+
+
+module.exports.getOneBlog = async(req,res) => {
+    try {
+        const { id } = req.params;
+
+        const blog = await Blog.findById(id).populate('user','name');
+
+        if(!blog){
+            return res.status(400).json({
+                success:false,
+                error:'Bad Request'
+            })
+        }
+
+        return res.json({
+            success:true,
+            blog
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error:'Internal Server Error'
+        })
     }
 }

@@ -124,6 +124,18 @@ const authSlice = createSlice({
         .addCase(loginUserThunk.fulfilled , (state,action) => {
             state.isLoading = false;
         })
+        .addCase(logoutUserThunk.pending , (state,action) => {
+            state.isLoading = true;
+        })
+        .addCase(logoutUserThunk.fulfilled , (state,action) => {
+            state.isLoading = false;
+        })
+        .addCase(getLoggedInUserThunk.pending , (state,action) => {
+            state.isLoading = true;
+        })
+        .addCase(getLoggedInUserThunk.fulfilled , (state,action) => {
+            state.isLoading = false;
+        })
     }
 });
 

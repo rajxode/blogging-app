@@ -41,8 +41,8 @@ function Navbar() {
 
     return (
         <div className='w-full relative'>
-            <div className={`w-full min-h-[75px] h-auto  flex px-[10%]
-                flex-col shrink-0 border-b border-black justify-center sticky top-0 left-0 ${scrolled || user ? 'bg-white' : 'bg-[#FFC017]'}`}
+            <div className={`w-full min-h-[75px] h-auto  flex px-[10%] flex-col shrink-0 border-b 
+                border-black justify-center sticky top-0 left-0 ${scrolled || user ? 'bg-white z-10' : 'bg-[#FFC017]'}`}
             >
                 <div className='flex justify-between items-center h-[55px] text-black'>
 

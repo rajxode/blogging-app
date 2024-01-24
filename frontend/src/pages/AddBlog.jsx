@@ -2,11 +2,21 @@
 import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useDispatch } from 'react-redux';
-import { addBlogThunk } from '../reducers/blogReducer';
+import { useDispatch , useSelector } from 'react-redux';
+import { addBlogThunk, blogSelector } from '../reducers/blogReducer';
+import Loader from '../components/Loader';
+import { toast } from 'react-toastify';
 
+const initialState = {
+  title:'',
+  summary:'',
+  file:'',
+  content:null
+}
 
 function AddBlog() {
+
+  const { loading } = useSelector(blogSelector);
 
   const [formData,setFormData] = useState({
     title:'',
@@ -31,7 +41,18 @@ function AddBlog() {
       return;
     }
     formData.content = content;
-    dispatch(addBlogThunk(formData));
+    const result = await dispatch(addBlogThunk(formData));
+    
+    if(result.payload){
+      toast.success('New blog added !!!')
+      setFormData({...initialState});
+      setContent('');
+      setFile(null);
+    }
+    else{
+      toast.error(result.payload.message);
+    }
+    
   }
 
   const handleImageChange = (e) => {
@@ -40,46 +61,57 @@ function AddBlog() {
   }
 
   return (
-    <div className='w-full px-[10%] flex flex-col items-center pt-[3%] min-h-[90vh]'>
+    <>
+    {
+      loading
+      ?
+      <Loader />
+      :
+      <div className='w-full px-[10%] flex flex-col items-center pt-[3%] min-h-[90vh]'>
+        
         <div className='w-full mt-2'>
-            <input 
-                type="text"
-                placeholder='Title'
-                required
-                value={formData.title}
-                onChange={(e) => setFormData({...formData,title:e.target.value})}
-                className='w-full focus:outline-none px-2 py-1 rounded h-[75px] text-5xl'/>
+          <input 
+            type="text"
+            placeholder='Title'
+            required
+            value={formData.title}
+            onChange={(e) => setFormData({...formData,title:e.target.value})}
+            className='w-full focus:outline-none px-2 py-1 rounded h-[75px] text-5xl' />
         </div>
+        
         <div className='w-full mt-2'>
-            <label htmlFor="file">
-              <span className='text-3xl font-semibold px-2 text-slate-400 cursor-pointer'><i class="fa-solid fa-circle-plus"></i></span>
-            </label>
-            <input 
-                    type="file"
-                    id="file"
-                    name='file'
-                    required
-                    onChange={handleImageChange}
-                    className='w-full focus:outline-none px-2 py-1 rounded hidden'/>
-            <img src={file} />
+          <label htmlFor="file" className='text-2xl font-semibold text-slate-400'>
+            <span className=' px-2 cursor-pointer'><i class="fa-solid fa-circle-plus"></i></span> Add a thumbnail
+          </label>
+          <input 
+            type="file"
+            id="file"
+            name='file'
+            required
+            onChange={handleImageChange}
+            className='w-full focus:outline-none px-2 py-1 rounded hidden'/>
+          <img src={file} />
         </div>
+
         <div className='w-full mt-2'>
-            <input 
-                    type="text"
-                    placeholder='Summary'
-                    required
-                    value={formData.summary}
-                    onChange={(e) => setFormData({...formData,summary:e.target.value})}
-                    className='w-full focus:outline-none px-2 py-1 rounded text-xl mb-2'/>
+          <input 
+            type="text"
+            placeholder='Summary'
+            required
+            value={formData.summary}
+            onChange={(e) => setFormData({...formData,summary:e.target.value})}
+            className='w-full focus:outline-none px-2 py-1 rounded text-xl mb-2' />
         </div>
-        <div className='w-full mt-2 z-0'>
-            <ReactQuill
-              theme='snow'
-              placeholder='Tell your story...'
-              value={content}
-              onChange={setContent}
-              />
+        
+        <div className='w-full mt-2'>
+          <ReactQuill
+            className='overflow-auto'
+            placeholder='Tell your story...'
+            value={content}
+            onChange={setContent}
+            />
         </div>
+        
         <div className='w-full mt-2 flex justify-center'>
           <button 
             onClick={handleSubmit}
@@ -87,8 +119,10 @@ function AddBlog() {
             Publish
           </button>
         </div>
-        
-    </div>
+
+      </div>
+    }
+    </>
   )
 }
 
