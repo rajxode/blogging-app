@@ -6,7 +6,7 @@ const cloudinary = require('cloudinary').v2;
 module.exports.getBlogs = async(req,res) => {
     try {
         // get all blogs
-        const blogs = await Blog.find({}).populate('user', 'name email');
+        const blogs = await Blog.find({}).populate('user', 'name email').sort({updatedAt : -1});
 
         // return response
         return res.status(200).json({

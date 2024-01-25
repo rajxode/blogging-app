@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
 import AddBlog from './pages/AddBlog';
 import SingleBlogPage from './pages/SingleBlogPage';
+import EditBlog from './pages/EditBlog';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/addblog' element={<AddBlog />} />
           <Route path='/singleblog/:id' element={<SingleBlogPage />} />
+          <Route path='/editblog/:id' element={<EditBlog />} />
         </Route>
       </>
     )

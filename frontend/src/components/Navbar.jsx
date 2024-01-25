@@ -16,15 +16,6 @@ function Navbar() {
 
     const [scrolled,setScrolled] = useState(false);
 
-    window.addEventListener('scroll',() => {
-        if(window.scrollY > 400) {
-            setScrolled(true);
-        }
-        else{
-            setScrolled(false);
-        }
-    });
-
     const handleLogOut = async(e) => {
         try {
             const result = await dispatch(logoutUserThunk());
@@ -38,6 +29,17 @@ function Navbar() {
     useEffect(() => {
         dispatch(getLoggedInUserThunk());
     },[]);
+
+    useEffect(() => {
+        window.addEventListener('scroll',() => {
+            if(window.scrollY > 400) {
+                setScrolled(true);
+            }
+            else{
+                setScrolled(false);
+            }
+        });
+    },[scrolled])
 
     return (
         <div className='w-full relative'>

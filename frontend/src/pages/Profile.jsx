@@ -5,11 +5,13 @@ import { useSelector , useDispatch } from 'react-redux';
 import { authSelector, getLoggedInUserThunk } from '../reducers/authReducer';
 import Posts from '../components/Posts';
 import Loader from '../components/Loader';
+import { blogSelector, getAllBlogsThunk } from '../reducers/blogReducer';
 
 
 function Profile() {
 
-    const { user , isLoading } = useSelector(authSelector);
+    const { isLoading } = useSelector(authSelector);
+    const { loading } = useSelector(blogSelector);
 
     const dispatch = useDispatch();
 
@@ -19,21 +21,17 @@ function Profile() {
 
     useEffect(() => {
        dispatch(getLoggedInUserThunk());
+       dispatch(getAllBlogsThunk());
     },[])
 
     return(
         <>
         {
-            isLoading 
+            isLoading || loading
             ?
             <Loader />
             :
             <div className='w-full py-[2%] flex flex-col'>
-                {/* <div className="w-full mb-5">
-                    <h1 className='text-3xl font-bold text-center'>
-                        Hello { user.name }, Your blogs
-                    </h1>
-                </div> */}
                 <div className="w-full">
                     <Posts />
                 </div>

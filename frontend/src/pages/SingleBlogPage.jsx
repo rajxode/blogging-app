@@ -5,22 +5,24 @@ import { useParams } from 'react-router-dom';
 import { useDispatch , useSelector } from 'react-redux';
 import { blogSelector, getOneBlogThunk } from '../reducers/blogReducer';
 import Loader from '../components/Loader';
-
+import { authSelector } from '../reducers/authReducer';
+import { format } from 'date-fns';
 
 function SingleBlogPage() {
 
   const { id } = useParams();
   const dispatch = useDispatch();
   const { loading, singleBlog } = useSelector(blogSelector);
+  const { isLoading } = useSelector(authSelector);
 
   useEffect(() => {
-    dispatch(getOneBlogThunk(id));
+    dispatch(getOneBlogThunk(id))
   },[]);
 
   return (
     <>
     {
-      loading
+      loading || isLoading
       ?
       <Loader />
       :  
@@ -33,7 +35,7 @@ function SingleBlogPage() {
               {singleBlog.summary}
             </div>
             <div className='my-3 font-semibold text-slate-500'>
-              {singleBlog.user.name}, {singleBlog.createdAt}
+              {singleBlog.user.name}, {format(new Date(singleBlog.createdAt), 'MMM d, yyyy')}
             </div>
           </div>
 
