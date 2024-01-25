@@ -94,3 +94,92 @@ module.exports.getOneBlog = async(req,res) => {
         })
     }
 }
+
+
+module.exports.updateBlog = async(req,res) => {
+    try {
+        const { id } = req.params;
+        const { title, summary, content } = req.body;
+        let result;
+        let newData;
+
+        if(req.file){
+
+            const oldBlog = await Blog.findById(id);
+            const thumbnailId = oldBlog.thumbnail.id;
+            await cloudinary.uploader.destroy(thumbnailId);
+
+            const path = req.file;
+
+            result = await cloudinary.uploader.upload(path,{
+                folder:'Medium/blog'
+            })
+        }
+
+        if(result){
+
+            const thumbnail = {
+                id:result.public_id,
+                secure_url:result.secure_url
+            }
+
+            newData = {
+                title,
+                summary,
+                content,
+                thumbnail
+            }
+        }else{
+            newData = {
+                title,
+                summary,
+                content,
+            }
+        }
+    
+
+        const blog = await Blog.findByIdAndUpdate(
+            id,
+            newData,
+            {
+                new:true,
+                runValidators:true,
+                useFindAndModify: false,
+            }
+        );
+
+        return res.status(200).json({
+            success:true
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            error:'Internal Server Error'
+        })
+    }
+}
+
+
+module.exports.removeBlog = async(req,res) => {
+    try {
+        console.log('called');
+        const { id } = req.params;
+
+
+        const blog = await Blog.findById(id);
+
+        const thumbnailId = blog.thumbnail.id;
+
+        await cloudinary.uploader.destroy(thumbnailId);
+
+        await Blog.findByIdAndDelete(id);
+        
+        return res.status(200).json({
+            success:true
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error:'Internal Server Error'
+        })        
+    }
+}

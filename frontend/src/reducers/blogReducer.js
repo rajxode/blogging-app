@@ -66,6 +66,63 @@ export const addBlogThunk = createAsyncThunk(
     }
 )
 
+
+export const updateBlogThunk = createAsyncThunk(
+    'blog/updateBlog',
+    async({id,formData},thunkAPI) => {
+        try {
+            const isToken = localStorage.getItem('token');
+            // if token not present return
+            if(!isToken){
+                return;
+            }
+            const token = JSON.parse(isToken);
+            // call api
+            const response = await axiosInstance.put(`/blogs/${id}`,formData,{
+                headers:{ 
+                    'Content-Type':'multipart/form-data',
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+
+            return response.data.success;
+        } catch (error) {
+            return {
+                success:false,
+                message:error.message
+            }
+        }
+    }
+)
+
+
+export const deleteBlogThunk = createAsyncThunk(
+    'blog/deleteBlog',
+    async(id,thunkAPI) => {
+        try {
+            const isToken = localStorage.getItem('token');
+            // if token not present return
+            if(!isToken){
+                return;
+            }
+            const token = JSON.parse(isToken);
+            // call api
+            const response = await axiosInstance.delete(`/blogs/${id}`,{
+                headers:{ 
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            return response.data.success;
+        } catch (error) {
+            return {
+                success:false,
+                message:error.message
+            }
+        }
+    }
+)
+
+
 // blog slice
 const blogSlice = createSlice({
     name:'blog',
@@ -98,6 +155,18 @@ const blogSlice = createSlice({
             state.loading = true;
         })
         .addCase(getOneBlogThunk.fulfilled, (state,action) => {
+            state.loading = false;
+        })
+        .addCase(updateBlogThunk.pending, (state,action) => {
+            state.loading = true;
+        })
+        .addCase(updateBlogThunk.fulfilled, (state,action) => {
+            state.loading = false;
+        })
+        .addCase(deleteBlogThunk.pending, (state,action) => {
+            state.loading = true;
+        })
+        .addCase(deleteBlogThunk.fulfilled, (state,action) => {
             state.loading = false;
         })
     }

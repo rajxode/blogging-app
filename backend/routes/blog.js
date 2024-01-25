@@ -18,7 +18,11 @@ router.route('/getblogs').get(blogController.getBlogs);
 // add a new blog
 router.route('/addblog').post(isLoggedIn,upload.single('file',1),blogController.addBlog);
 
-router.route('/:id').get(blogController.getOneBlog);
+router.route('/:id')
+        .get(blogController.getOneBlog)
+        .put(isLoggedIn,upload.single('file',1),blogController.updateBlog)
+        .delete(isLoggedIn,blogController.removeBlog);
+
 
 // export router
 module.exports = router;

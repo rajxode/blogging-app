@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill';
-import { useParams } from 'react-router-dom';
+import { useParams , useNavigate } from 'react-router-dom';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch , useSelector } from 'react-redux';
-import { addBlogThunk, blogSelector } from '../reducers/blogReducer';
+import { blogSelector, updateBlogThunk } from '../reducers/blogReducer';
 import Loader from '../components/Loader';
 import { toast } from 'react-toastify';
 
@@ -19,6 +19,7 @@ function EditBlog() {
 
   const { id } = useParams();
   const { loading , singleBlog } = useSelector(blogSelector);
+  const navigate = useNavigate();
 
   const [formData,setFormData] = useState({
     title:singleBlog.title,
@@ -43,13 +44,14 @@ function EditBlog() {
       return;
     }
     formData.content = content;
-    const result = await dispatch(updateBlogThunk(formData));
+    const result = await dispatch(updateBlogThunk({id:id,formData:formData}));
     
     if(result.payload){
       toast.success('Blog Updated !!!')
       setFormData({...initialState});
       setContent('');
       setFile(null);
+      navigate(`/singleblog/${id}`);
     }
     else{
       toast.error(result.payload.message);
@@ -71,6 +73,14 @@ function EditBlog() {
       :
       <div className='w-full px-[10%] flex flex-col items-center pt-[3%] min-h-[90vh]'>
         
+        <div className='w-full mt-2 flex justify-end'>
+          <button 
+            onClick={handleSubmit}
+            className='px-4 py-1 bg-[#1a8917] text-white rounded-full'> 
+            Update Blog
+          </button>
+        </div>
+
         <div className='w-full mt-2'>
           <input 
             type="text"
@@ -92,7 +102,9 @@ function EditBlog() {
             required
             onChange={handleImageChange}
             className='w-full focus:outline-none px-2 py-1 rounded hidden'/>
-          <img src={file} />
+          <div className='w-full flex justify-center'>
+            <img src={file} />
+          </div>
         </div>
 
         <div className='w-full mt-2'>
@@ -112,14 +124,6 @@ function EditBlog() {
             value={content}
             onChange={setContent}
             />
-        </div>
-        
-        <div className='w-full mt-2 flex justify-center'>
-          <button 
-            onClick={handleSubmit}
-            className='px-4 py-1 bg-[#1a8917] text-white rounded-full'> 
-            Update Blog
-          </button>
         </div>
 
       </div>
