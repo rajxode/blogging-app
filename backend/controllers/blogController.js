@@ -15,7 +15,7 @@ module.exports.getBlogs = async(req,res) => {
         })
     } catch (error) {
         return res.status(500).json({
-            error:'Internal Server Error'
+            error:error.message
         })
     }
 }
@@ -24,8 +24,9 @@ module.exports.getBlogs = async(req,res) => {
 // create a new blog 
 module.exports.addBlog = async(req,res) => {
     try {
+
         // data from req.body
-        const { title , summary , content } = req.body;
+        const { title, summary, content, tags } = req.body;
         
         // if no thumbnail for blog is present
         if(!req.file){
@@ -54,6 +55,7 @@ module.exports.addBlog = async(req,res) => {
             summary,
             content,
             thumbnail,
+            tags,
             // logged in user's id
             user:req.user._id
         })
@@ -65,7 +67,7 @@ module.exports.addBlog = async(req,res) => {
 
     } catch (error) {
         return res.status(500).json({
-            error:'Internal Server Error'
+            error:error.message
         });
     }
 }
@@ -90,7 +92,7 @@ module.exports.getOneBlog = async(req,res) => {
         })
     } catch (error) {
         return res.status(500).json({
-            error:'Internal Server Error'
+            error:error.message
         })
     }
 }
@@ -154,7 +156,7 @@ module.exports.updateBlog = async(req,res) => {
 
     } catch (error) {
         return res.status(500).json({
-            error:'Internal Server Error'
+            error:error.message
         })
     }
 }
@@ -179,7 +181,7 @@ module.exports.removeBlog = async(req,res) => {
         })
     } catch (error) {
         return res.status(500).json({
-            error:'Internal Server Error'
+            error:error.message
         })        
     }
 }

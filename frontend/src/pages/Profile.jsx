@@ -3,9 +3,9 @@
 import React, { useEffect } from 'react';
 import { useSelector , useDispatch } from 'react-redux';
 import { authSelector, getLoggedInUserThunk } from '../reducers/authReducer';
-import Posts from '../components/Posts';
 import Loader from '../components/Loader';
 import { blogSelector, getAllBlogsThunk } from '../reducers/blogReducer';
+import BlogList from '../components/BlogList';
 
 
 function Profile() {
@@ -33,7 +33,7 @@ function Profile() {
             :
             <div className='w-full py-[2%] flex flex-col'>
                 <div className="w-full">
-                    <Posts />
+                    <BlogList />
                 </div>
             </div>
         }

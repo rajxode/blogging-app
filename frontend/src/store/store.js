@@ -7,7 +7,6 @@ import { blogReducer } from "../reducers/blogReducer";
 
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
-// import { combineReducer } from 'redux';
 
 const persistConfig = {
     key:'root',
@@ -24,4 +23,8 @@ const persistedReducer = persistReducer(persistConfig,reducer);
 // creating store from reducers
 export const store = configureStore({
     reducer:persistedReducer
+    // reducer:{
+    //     authReducer,
+    //     blogReducer
+    // }
 })

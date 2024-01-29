@@ -19,8 +19,13 @@ function Navbar() {
     const handleLogOut = async(e) => {
         try {
             const result = await dispatch(logoutUserThunk());
-            toast.success('User logged out');
-            navigate('/');
+            if(result.payload){
+                toast.success('User logged out');
+                navigate('/');
+            }
+            else{
+                toast.error(result.payload.message);
+            }
         } catch (error) {
             toast.error(error.message);
         }
@@ -43,24 +48,23 @@ function Navbar() {
 
     return (
         <div className='w-full relative'>
-            <div className={`w-full min-h-[75px] h-auto  flex px-[10%] flex-col shrink-0 border-b 
+            <div className={`w-full min-h-[75px] h-auto flex px-[2%] md:px-[10%] flex-col shrink-0 border-b
                 border-black justify-center sticky top-0 left-0 ${scrolled || user ? 'bg-white z-10' : 'bg-[#FFC017]'}`}
             >
-                <div className='flex justify-between items-center h-[55px] text-black'>
+                <div className='w-full flex justify-between items-center h-[55px] text-black'>
 
-                    <div className='flex justify-start items-center w-full md:w-1/2 lg:w-3/4'>
+                    <div className='flex justify-start items-center'>
                         <div className='text-3xl font-bold font-serif'>
                             <Link to={`${user ? '/profile' : '/'}`}>
-                                <span><i class="fa-brands fa-medium"></i></span> Medium
+                                <span><i class="fa-brands fa-medium"></i></span> <span className='hidden sm:inline'>Medium</span>
                             </Link>
                         </div>
-
                     </div>
                     
 
-                    <div className='hidden sm:flex justify-between w-auto items-center'
+                    <div className='flex justify-between w-auto items-center'
                     >
-                        <div>
+                        <div className='hidden sm:block'>
                             {
                                 user
                                 ?
@@ -76,90 +80,60 @@ function Navbar() {
                                     </div>
                                 </div>
                                 :
-                                <Link className='mx-4 hover:underline' to='/login'>
+                                <Link className='hover:underline mx-4' to='/login'>
                                     Sign In
                                 </Link>
                             }
                         </div>
+
                         <div>
                             {
                                 user
                                 ?
-                                <button onClick={handleLogOut}
-                                        className='hover:underline'
+                                <div onClick={() => setShowMenu(!showMenu)}
+                                        className='bg-red-400 h-[50px] w-[50px] rounded-full relative cursor-pointer'
                                     >
-                                    Log Out
-                                </button>
+                                        {
+                                            showMenu
+                                            ?
+                                            <div className='absolute flex flex-col right-0 top-[7vh] bg-white shadow-lg w-[150px] text-slate-400 
+                                                    border border-slate-100 rounded'>
+                                                <div className='flex flex-col justify-around py-2 border-b px-3'>
+                                                    <div className='pb-2 hover:text-slate-600'>
+                                                        <spna><i class="fa-regular fa-user"></i></spna> Profile
+                                                    </div>
+                                                    <div className='pb-2 hover:text-slate-600'>
+                                                        <span><i class="fa-regular fa-bookmark"></i></span> Library
+                                                    </div>
+                                                </div>
+                                                <div className='flex flex-col justify-around py-2 border-b px-3'>
+                                                    <div className='hover:text-slate-600'>
+                                                        Settings
+                                                    </div>
+                                                </div>
+                                                <div className='flex flex-col justify-around py-2 px-3'>
+                                                    <div className='hover:text-slate-600'
+                                                        onClick={handleLogOut}>
+                                                        Sign out
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            :
+                                            null
+                                        }
+                                </div>
                                 :
                                 <Link to='/signup' 
-                                    className={`text-white px-3 py-1 rounded-full hover:bg-[#2c2c2c] flex items-center shadow-sm ${scrolled ? 'bg-[#1a8917]' : 'bg-black'} `}>
+                                    className={`text-white px-3 py-1 rounded-full hover:bg-[#2c2c2c] shadow-sm ${scrolled ? 'bg-[#1a8917]' : 'bg-black'} `}>
                                     Get Started
                                 </Link>
                             }
                         </div>
                     </div>
 
-                    <div className='sm:hidden text-xl w-auto px-2 py-1 rounded
-                        hover:bg-black hover:text-white cursor-pointer'
-                        onClick={() => setShowMenu(!showMenu)}
-                    >
-                        {
-                            showMenu
-                            ?
-                            <i class="fa-solid fa-xmark"></i>
-                            :
-                            <i class="fa-solid fa-bars"></i>
-                        }
-                    </div>
 
                 </div>
                 
-                {
-                    showMenu
-                    ?
-                    <div className='w-full flex flex-col pb-1'>
-                        {   
-                            user
-                            ?
-                            <>
-                                <div className='flex flex-col md:hidden w-full'>
-                                    <div className='w-full flex items-center text-yellow-700 h-[30px] '>
-                                        <Link to='addblog'>
-                                            <span>
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </span>
-                                            &nbsp;
-                                            Write
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className='w-full h-[30px]  flex items-center'>
-                                    <button className='text-yellow-700'>
-                                        Sign Out
-                                    </button>
-                                </div>
-                            </>
-                            :
-                            <>
-                                <div className='w-full h-[30px]  flex items-center'>
-                                    <Link className='text-yellow-700' to='/login'>
-                                        Sign In
-                                    </Link>
-                                </div>
-                                <div className='w-full h-[30px] flex items-center'>
-                                    <Link to='/signup' 
-                                        className='text-yellow-700'
-                                        >
-                                        Get Started
-                                    </Link>
-                                </div>
-                            </>
-                            
-                        }
-                    </div>
-                    :
-                    null
-                }
             </div>
             <Outlet />
         </div>

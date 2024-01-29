@@ -7,6 +7,7 @@ import { useDispatch , useSelector } from 'react-redux';
 import { blogSelector, updateBlogThunk } from '../reducers/blogReducer';
 import Loader from '../components/Loader';
 import { toast } from 'react-toastify';
+import ThumbnailUploader from '../components/ThumbnailUploader';
 
 const initialState = {
   title:'',
@@ -56,7 +57,6 @@ function EditBlog() {
     else{
       toast.error(result.payload.message);
     }
-    
   }
 
   const handleImageChange = (e) => {
@@ -91,21 +91,7 @@ function EditBlog() {
             className='w-full focus:outline-none px-2 py-1 rounded h-[75px] text-5xl' />
         </div>
         
-        <div className='w-full mt-2'>
-          <label htmlFor="file" className='text-2xl font-semibold text-slate-400'>
-            <span className=' px-2 cursor-pointer'><i class="fa-solid fa-circle-plus"></i></span> Add a thumbnail
-          </label>
-          <input 
-            type="file"
-            id="file"
-            name='file'
-            required
-            onChange={handleImageChange}
-            className='w-full focus:outline-none px-2 py-1 rounded hidden'/>
-          <div className='w-full flex justify-center'>
-            <img src={file} />
-          </div>
-        </div>
+        <ThumbnailUploader file={file} handleImageChange={handleImageChange} />
 
         <div className='w-full mt-2'>
           <input 

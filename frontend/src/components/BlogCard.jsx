@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { getOneBlogThunk } from '../reducers/blogReducer';
 import { format } from 'date-fns';
 
-function SinglePost(props) {
+function BlogCard(props) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();    
-    const { title, summary, thumbnail, createdAt, user, _id } = props.post;
+    const { title, summary, thumbnail, createdAt, user, _id, tags } = props.post;
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -34,6 +34,11 @@ function SinglePost(props) {
                     { summary }
                 </div>
 
+                <div className='w-full flex my-2'>
+                    {
+                        tags.map((tag,i) => <div key={i} className='px-2 text-sm bg-[#ebebeb] text-slate-500 mx-1 rounded-full'>{tag}</div>)
+                    }
+                </div>
             </div>
             <div className='md:h-full h-auto w-full md:w-[35%]'>
                 <img src={thumbnail.secure_url} alt="image" className='h-full w-full rounded'/>
@@ -42,4 +47,4 @@ function SinglePost(props) {
     )
 }
 
-export default SinglePost;
+export default BlogCard;

@@ -61,6 +61,7 @@ export const logoutUserThunk = createAsyncThunk(
             // remove token from localstorage
             localStorage.removeItem('token');
             thunkAPI.dispatch(setUser(null));
+            return response.data.success;
         } catch (error) {
             return {
                 success:false,

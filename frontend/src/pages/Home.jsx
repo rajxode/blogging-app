@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import Posts from '../components/Posts';
+import BlogList from '../components/BlogList';
 import HomeBanner from '../components/HomeBanner';
 import { useDispatch , useSelector } from 'react-redux';
 import { blogSelector, getAllBlogsThunk } from '../reducers/blogReducer';
@@ -25,7 +25,7 @@ function Home() {
         :
         <div className='w-full'>
           <HomeBanner />
-          <Posts />
+          <BlogList />
         </div>
       }
     </>

@@ -10,6 +10,12 @@ module.exports.create = async(req,res) => {
         // user's data
         const { name , email , password } = req.body.formData;
 
+        if(!name || !email || !password){
+            return res.status(400).json({
+                error:'Please enter all the values'
+            });
+        }
+
         // check whether the user already exist or not
         const userExist = await User.findOne({email});
 
@@ -45,6 +51,12 @@ module.exports.login = async(req,res) => {
     try {
         // user's data
         const { email , password } = req.body.formData;
+
+        if(!email , !password){
+            return res.status(400).json({
+                error:'Please enter all the values'
+            });
+        }
 
         // find user
         const user = await User.findOne({email});

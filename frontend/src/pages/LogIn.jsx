@@ -64,6 +64,7 @@ function Login() {
                             </h2>  
                         </div>
                         
+                        <form className='w-full h-4/5 flex flex-col justify-around'>
                         <div className='w-full h-2/5 flex flex-col justify-around items-center'>
                             <div className='w-full'>
                                 <input 
@@ -97,6 +98,7 @@ function Login() {
                                 </Link>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>

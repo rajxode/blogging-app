@@ -6,12 +6,15 @@ import { useDispatch , useSelector } from 'react-redux';
 import { addBlogThunk, blogSelector } from '../reducers/blogReducer';
 import Loader from '../components/Loader';
 import { toast } from 'react-toastify';
+import TagInput from '../components/TagInput';
+import ThumbnailUploader from '../components/ThumbnailUploader';
 
 const initialState = {
   title:'',
   summary:'',
   file:'',
-  content:null
+  content:null,
+  tags:null
 }
 
 function AddBlog() {
@@ -22,42 +25,51 @@ function AddBlog() {
     title:'',
     summary:'',
     file:'',
-    content:null
+    content:null,
+    tags:null
   });
 
   const dispatch = useDispatch();
 
   const [file,setFile] = useState();
 	const [content, setContent] = useState('');
-
+  const [ tags , setTags ] = useState([]);
 
   useEffect(() => {
     document.title = 'Add Blog | Medium'
-  },[])
+  },[]);
+
+
+  const resetData = () => {
+    setFormData({...initialState});
+    setTags([]);
+    setContent('');
+    setFile(null);
+  }
+
+  const handleImageChange = (e) => {
+    setFormData({...formData,file:e.target.files[0]})
+    setFile(URL.createObjectURL(e.target.files[0]));
+}
+
 
   const handleSubmit = async(e) => {
     e.preventDefault();
     if(!content){
       return;
     }
+    formData.tags = tags;
     formData.content = content;
     const result = await dispatch(addBlogThunk(formData));
     
     if(result.payload){
       toast.success('New blog added !!!')
-      setFormData({...initialState});
-      setContent('');
-      setFile(null);
+      resetData();
     }
     else{
       toast.error(result.payload.message);
     }
     
-  }
-
-  const handleImageChange = (e) => {
-    setFormData({...formData,file:e.target.files[0]})
-    setFile(URL.createObjectURL(e.target.files[0]));
   }
 
   return (
@@ -68,6 +80,21 @@ function AddBlog() {
       <Loader />
       :
       <div className='w-full px-[10%] flex flex-col items-center pt-[3%] min-h-[90vh]'>
+
+        <div className='w-full flex justify-end'>
+
+        <button 
+            onClick={resetData}
+            className='px-4 py-1 bg-[#e0e0e0] rounded-full mr-2'>
+            Reset
+          </button>
+
+          <button 
+            onClick={handleSubmit}
+            className='px-4 py-1 bg-[#1a8917] text-white rounded-full'> 
+            Publish
+          </button>
+        </div>
         
         <div className='w-full mt-2'>
           <input 
@@ -79,19 +106,7 @@ function AddBlog() {
             className='w-full focus:outline-none px-2 py-1 rounded h-[75px] text-5xl' />
         </div>
         
-        <div className='w-full mt-2'>
-          <label htmlFor="file" className='text-2xl font-semibold text-slate-400'>
-            <span className=' px-2 cursor-pointer'><i class="fa-solid fa-circle-plus"></i></span> Add a thumbnail
-          </label>
-          <input 
-            type="file"
-            id="file"
-            name='file'
-            required
-            onChange={handleImageChange}
-            className='w-full focus:outline-none px-2 py-1 rounded hidden'/>
-          <img src={file} />
-        </div>
+        <ThumbnailUploader file={file} handleImageChange={handleImageChange} />
 
         <div className='w-full mt-2'>
           <input 
@@ -102,6 +117,8 @@ function AddBlog() {
             onChange={(e) => setFormData({...formData,summary:e.target.value})}
             className='w-full focus:outline-none px-2 py-1 rounded text-xl mb-2' />
         </div>
+
+        <TagInput tags={tags} setTags={setTags} />
         
         <div className='w-full mt-2'>
           <ReactQuill
@@ -110,14 +127,6 @@ function AddBlog() {
             value={content}
             onChange={setContent}
             />
-        </div>
-        
-        <div className='w-full mt-2 flex justify-center'>
-          <button 
-            onClick={handleSubmit}
-            className='px-4 py-1 bg-[#1a8917] text-white rounded-full'> 
-            Publish
-          </button>
         </div>
 
       </div>

@@ -15,7 +15,7 @@ function SingleBlogPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, singleBlog } = useSelector(blogSelector);
-  const { isLoading } = useSelector(authSelector);
+  const { isLoading, user } = useSelector(authSelector);
   const [ showMenu, setShowMenu ] = useState(false); 
 
   useEffect(() => {
@@ -43,43 +43,50 @@ function SingleBlogPage() {
       <Loader />
       :  
       <div className='w-1/2 py-[3%] min-h-[92vh] flex flex-col mx-auto justify-between'>
+        
+        {/* if user is logged in and id of loggedin user and blog author's id matches */}
+        {
+          user && ( user._id === singleBlog.user._id )
+          ?
+          <div className='flex justify-end relative'>
+            <span className='cursor-pointer px-2 py-[2px] rounded-full hover:bg-slate-200 text-lg 
+              font-semibold text-slate-400 hover:text-black'
+              onClick={(e) => setShowMenu(!showMenu) }>
+                {
+                  !showMenu
+                  ?
+                  <i class="fa-solid fa-ellipsis"></i>
+                  :
+                  <i class="fa-solid fa-xmark"></i>
+                }
+            </span>
 
-        <div className='flex justify-end relative'>
-          <span className='cursor-pointer px-2 py-[2px] rounded-full hover:bg-slate-200 text-lg 
-            font-semibold text-slate-400 hover:text-black'
-            onClick={(e) => setShowMenu(!showMenu) }>
-              {
-                !showMenu
-                ?
-                <i class="fa-solid fa-ellipsis"></i>
-                :
-                <i class="fa-solid fa-xmark"></i>
-              }
-          </span>
+            {
+              showMenu
+              ?
+              <div className='absolute bg-[#f3f3f3] -bottom-11 right-6 w-[100px] min-h-[50px] flex 
+                flex-col py-1 px-2 rounded shadow'>
+                  
+                  <Link to={`/editblog/${id}`}>
+                    <button className='w-full text-left border-b border-gray-300'>
+                      Edit
+                    </button>
+                  </Link>
 
-          {
-            showMenu
-            ?
-            <div className='absolute bg-gray-200 -bottom-11 right-6 w-[100px] min-h-[50px] flex 
-              flex-col py-1 px-2 rounded shadow'>
-                
-                <Link to={`/editblog/${id}`}>
-                  <button className='w-full text-left border-b border-gray-300'>
-                    Edit
+                  
+                  <button className='w-full text-left'
+                    onClick={handleDelBlog}>
+                    Delete
                   </button>
-                </Link>
-
-                
-                <button className='w-full text-left'
-                  onClick={handleDelBlog}>
-                  Delete
-                </button>
-            
-            </div>
-            :
-            null
-          }
-        </div>
+              
+              </div>
+              :
+              null
+            }
+          </div>
+          :
+          null
+        }
 
         <div className='w-full my-3 h-auto flex flex-col'>
           <h1 className="text-5xl font-bold">
