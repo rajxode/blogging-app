@@ -28,7 +28,7 @@ function SingleBlogPage() {
 
     if(result.payload){
       toast.success('Blog Deleted !!!')
-      navigate('/profile');
+      navigate('/home');
     }
     else{
       toast.error(result.payload.message);

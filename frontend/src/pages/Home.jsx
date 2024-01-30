@@ -1,35 +1,44 @@
 
+
 import React, { useEffect } from 'react';
-import BlogList from '../components/BlogList';
-import HomeBanner from '../components/HomeBanner';
-import { useDispatch , useSelector } from 'react-redux';
-import { blogSelector, getAllBlogsThunk } from '../reducers/blogReducer';
+import { useSelector , useDispatch } from 'react-redux';
+import { authSelector, getLoggedInUserThunk } from '../reducers/authReducer';
 import Loader from '../components/Loader';
+import { blogSelector, getAllBlogsThunk } from '../reducers/blogReducer';
+import BlogList from '../components/BlogList';
+
 
 function Home() {
 
-  const dispatch = useDispatch();
-  const { loading } = useSelector(blogSelector);
+    const { isLoading } = useSelector(authSelector);
+    const { loading } = useSelector(blogSelector);
 
-  useEffect(() => {
-    document.title = 'Medium';
-    dispatch(getAllBlogsThunk());
-  },[]);
+    const dispatch = useDispatch();
 
-  return (
-    <>
-      {
-        loading
-        ?
-        <Loader />
-        :
-        <div className='w-full'>
-          <HomeBanner />
-          <BlogList />
-        </div>
-      }
-    </>
-  )
+    useEffect(() => {
+        document.title = 'Home | Medium';
+    },[]);
+
+    useEffect(() => {
+       dispatch(getLoggedInUserThunk());
+       dispatch(getAllBlogsThunk());
+    },[])
+
+    return(
+        <>
+        {
+            isLoading || loading
+            ?
+            <Loader />
+            :
+            <div className='w-full py-[2%] flex flex-col'>
+                <div className="w-full">
+                    <BlogList />
+                </div>
+            </div>
+        }
+        </>
+    )
 }
 
 export default Home;

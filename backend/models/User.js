@@ -16,7 +16,23 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:[true,'Please enter password']
-    }
+    },
+    avatar:{
+        // photo id in cloudinary
+        id:{
+            type:String,
+        },
+        // url from cloudinary
+        secure_url:{
+            type:String,
+        }
+    },
+    savedBlogs:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Blog'
+        }
+    ]
 });
 
 // Model

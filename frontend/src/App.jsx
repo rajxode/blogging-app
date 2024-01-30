@@ -4,10 +4,12 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/LogIn';
 import SignUp from './pages/SignUp';
-import Profile from './pages/Profile';
+import LandingPage from './pages/LandingPage';
 import AddBlog from './pages/AddBlog';
 import SingleBlogPage from './pages/SingleBlogPage';
 import EditBlog from './pages/EditBlog';
+import UsersProfile from './pages/UsersProfile';
+import Settings from './pages/Settings';
 
 function App() {
 
@@ -15,13 +17,15 @@ function App() {
     createRoutesFromElements(
       <>
         <Route path='/' element={<Navbar />}>
-          <Route index element={<Home />} />
+          <Route index element={<LandingPage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/home' element={<Home />} />
           <Route path='/addblog' element={<AddBlog />} />
           <Route path='/singleblog/:id' element={<SingleBlogPage />} />
           <Route path='/editblog/:id' element={<EditBlog />} />
+          <Route path='/profile' element={<UsersProfile />} />
+          <Route path='/settings' element={<Settings />} />
         </Route>
       </>
     )
