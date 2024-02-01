@@ -4,17 +4,22 @@ import { NavLink } from 'react-router-dom';
 
 function ProfileNavbar() {
     return (
-        <div className='w-full border-b flex'>
+        <div className='w-full border-b flex mt-5'>
             <NavLink 
                 to="/profile"
                 className={({ isActive }) =>
-                  isActive ? "bg-red-900" : ""
+                  isActive ? "underline underline-offset-4" : ""
                 }
-              >
+            >
                 Home
             </NavLink>
             
-            <NavLink>
+            <NavLink 
+                to="/profile/library"
+                className={({ isActive }) =>
+                  isActive ? "underline underline-offset-4" : ""
+                }
+            >
                 Saved
             </NavLink>
         </div>

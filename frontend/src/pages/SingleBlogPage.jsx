@@ -16,7 +16,8 @@ function SingleBlogPage() {
   const navigate = useNavigate();
   const { loading, singleBlog } = useSelector(blogSelector);
   const { isLoading, user } = useSelector(authSelector);
-  const [ showMenu, setShowMenu ] = useState(false); 
+  const [ showEditMenu, setShowEditMenu ] = useState(false);
+  const [ showComments, setShowComments ] = useState(false); 
 
   useEffect(() => {
     dispatch(getOneBlogThunk(id))
@@ -42,7 +43,7 @@ function SingleBlogPage() {
       ?
       <Loader />
       :  
-      <div className='w-1/2 py-[3%] min-h-[92vh] flex flex-col mx-auto justify-between'>
+      <div className='w-1/2 py-[3%] min-h-[92vh] flex flex-col mx-auto justify-between relative'>
         
         {/* if user is logged in and id of loggedin user and blog author's id matches */}
         {
@@ -51,9 +52,9 @@ function SingleBlogPage() {
           <div className='flex justify-end relative'>
             <span className='cursor-pointer px-2 py-[2px] rounded-full hover:bg-slate-200 text-lg 
               font-semibold text-slate-400 hover:text-black'
-              onClick={(e) => setShowMenu(!showMenu) }>
+              onClick={(e) => setShowEditMenu(!showEditMenu) }>
                 {
-                  !showMenu
+                  !showEditMenu
                   ?
                   <i class="fa-solid fa-ellipsis"></i>
                   :
@@ -62,7 +63,7 @@ function SingleBlogPage() {
             </span>
 
             {
-              showMenu
+              showEditMenu
               ?
               <div className='absolute bg-[#f3f3f3] -bottom-11 right-6 w-[100px] min-h-[50px] flex 
                 flex-col py-1 px-2 rounded shadow'>
@@ -106,14 +107,34 @@ function SingleBlogPage() {
 
         <div dangerouslySetInnerHTML={{__html:singleBlog.content}} />
 
-        <div className='w-full mt-2 flex flex-col justify-center items-center'>
-          <div className='text-2xl font-semibold text-slate-700 underline'>
+        <div className='w-full flex items-center my-3'>
+          {
+            singleBlog.tags.map((tag) => <div className='px-3 py-1 bg-[#f2f2f2] rounded-full mr-2'>{tag}</div>)
+          }
+        </div>
+
+        <div className='w-full flex items-center my-3'>
+          <div>
+            <i class="fa-regular fa-heart"></i>
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          <div>
+            <span onClick={() => setShowComments(!showComments)}>
+              <i class="fa-regular fa-comments"></i>
+            </span>
+          </div>
+        </div>
+
+        <div className={`flex flex-col items-center fixed top-0 right-0 bg-white h-screen 
+            drop-shadow-2xl z-20 transition-all ease-in-out duration-300 ${showComments ? 'w-1/4' : 'w-0' }`}>
+          <div className='w-full text-2xl font-semibold text-slate-700 underline'>
             Comments
           </div>
-          <div className='w-full'>
+          <div className='w-full h-full'>
             <Comments />
           </div>
         </div>
+
       </div>
     }
     </>
