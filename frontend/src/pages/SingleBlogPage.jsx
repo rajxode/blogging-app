@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from 'react';
-import Comments from '../components/Comments';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch , useSelector } from 'react-redux';
 import { blogSelector, deleteBlogThunk, getOneBlogThunk } from '../reducers/blogReducer';
@@ -8,6 +7,8 @@ import Loader from '../components/Loader';
 import { authSelector } from '../reducers/authReducer';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
+import CommentSection from '../components/CommentSection';
+import LikeAndCommentTab from '../components/LikeAndCommentTab';
 
 function SingleBlogPage() {
 
@@ -19,8 +20,13 @@ function SingleBlogPage() {
   const [ showEditMenu, setShowEditMenu ] = useState(false);
   const [ showComments, setShowComments ] = useState(false); 
 
+
   useEffect(() => {
     dispatch(getOneBlogThunk(id))
+  },[]);
+
+  useEffect(() => {
+    document.title = singleBlog.title;
   },[]);
 
   const handleDelBlog = async(e) => {
@@ -96,10 +102,23 @@ function SingleBlogPage() {
           <div className='text-xl my-3 font-semibold text-slate-500'>
             {singleBlog.summary}
           </div>
-          <div className='my-3 font-semibold text-slate-500'>
-            {singleBlog.user.name}, {format(new Date(singleBlog.createdAt), 'MMM d, yyyy')}
+          <div className='my-3 font-semibold text-slate-500 flex'>
+            <div className='w-[45px] h-[45px] rounded-full bg-red-400'>
+
+            </div>
+            <div className='ml-2 flex flex-col text-sm justify-center'>
+              <div>{singleBlog.user.name}</div>
+              <div>{format(new Date(singleBlog.createdAt), 'MMM d, yyyy')}</div>
+            </div>
           </div>
         </div>
+
+        <LikeAndCommentTab 
+            showComments={showComments} 
+            setShowComments={setShowComments} 
+            comments={singleBlog.comments} 
+            likes={singleBlog.likes} 
+          />
 
         <div className='w-full flex justify-center items-center h-[65vh] my-3'>
             <img src={singleBlog.thumbnail.secure_url} alt="image" className='h-full w-auto rounded' />
@@ -113,27 +132,17 @@ function SingleBlogPage() {
           }
         </div>
 
-        <div className='w-full flex items-center my-3'>
-          <div>
-            <i class="fa-regular fa-heart"></i>
-            <i class="fa-solid fa-heart"></i>
-          </div>
-          <div>
-            <span onClick={() => setShowComments(!showComments)}>
-              <i class="fa-regular fa-comments"></i>
-            </span>
-          </div>
-        </div>
+        <LikeAndCommentTab 
+            showComments={showComments} 
+            setShowComments={setShowComments} 
+            comments={singleBlog.comments} 
+            likes={singleBlog.likes} 
+          />
 
-        <div className={`flex flex-col items-center fixed top-0 right-0 bg-white h-screen 
-            drop-shadow-2xl z-20 transition-all ease-in-out duration-300 ${showComments ? 'w-1/4' : 'w-0' }`}>
-          <div className='w-full text-2xl font-semibold text-slate-700 underline'>
-            Comments
-          </div>
-          <div className='w-full h-full'>
-            <Comments />
-          </div>
-        </div>
+        <CommentSection 
+            showComments={showComments} 
+            setShowComments={setShowComments} 
+          />
 
       </div>
     }

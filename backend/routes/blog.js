@@ -18,6 +18,12 @@ router.route('/getblogs').get(blogController.getBlogs);
 // add a new blog
 router.route('/addblog').post(isLoggedIn,upload.single('file',1),blogController.addBlog);
 
+router.route('/comment/:blogId')
+    .post(isLoggedIn,blogController.addComment)
+    .delete(isLoggedIn,blogController.removeComment);
+
+router.route('/togglelike/:blogId').put(isLoggedIn,blogController.toggleLike);
+
 router.route('/:id')
         .get(blogController.getOneBlog)
         .put(isLoggedIn,upload.single('file',1),blogController.updateBlog)

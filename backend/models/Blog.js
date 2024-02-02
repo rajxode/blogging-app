@@ -31,11 +31,26 @@ const blogSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
+    // tags for a blog
     tags:[
         {
             type:String
         }
-    ]
+    ],
+    // comments on blog
+    comments:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'Comment'
+        }
+    ],
+    // likes on blog
+    likes:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:''
+        }
+    ],
 },
 {
     timestamps:true

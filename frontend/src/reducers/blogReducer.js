@@ -12,9 +12,13 @@ export const getOneBlogThunk = createAsyncThunk(
     async(id,thunkAPI) => {
         try {
             const response = await axiosInstance.get(`/blogs/${id}`);
+            console.log(response.data);
             thunkAPI.dispatch(setSingleBlog(response.data.blog));
         } catch (error) {
-            console.log(error);
+            return {
+                success:false,
+                message:error.response.data.error
+            }
         }
     }
 )
@@ -30,7 +34,7 @@ export const getAllBlogsThunk = createAsyncThunk(
         } catch (error) {
             return {
                 success:false,
-                message:error.message
+                message:error.response.data.error
             }
         }
     }
@@ -60,7 +64,7 @@ export const addBlogThunk = createAsyncThunk(
         } catch (error) {
             return {
                 success:false,
-                message:error.message
+                message:error.response.data.error
             }
         }
     }
@@ -89,7 +93,7 @@ export const updateBlogThunk = createAsyncThunk(
         } catch (error) {
             return {
                 success:false,
-                message:error.message
+                message:error.response.data.error
             }
         }
     }
@@ -116,7 +120,34 @@ export const deleteBlogThunk = createAsyncThunk(
         } catch (error) {
             return {
                 success:false,
-                message:error.message
+                message:error.response.data.error
+            }
+        }
+    }
+)
+
+
+export const addCommentThunk = createAsyncThunk(
+    'blog/addComment',
+    async({id,content},thunkAPI) => {
+        try {
+            const isToken = localStorage.getItem('token');
+            // if token not present return
+            if(!isToken){
+                return;
+            }
+            const token = JSON.parse(isToken);
+            // call api
+            const response = await axiosInstance.post(`/blogs/comment/${id}`,{content},{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            return {
+                success:false,
+                message:error.response.data.error
             }
         }
     }

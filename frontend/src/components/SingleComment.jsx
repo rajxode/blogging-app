@@ -1,21 +1,28 @@
 
+import { formatDistance } from 'date-fns';
 import React from 'react';
 
 function SingleComment(props) {
 
     const { comment } = props;
     return (
-        <div className='w-full m-2 px-2 py-4  flex items-center h-[60px] border-y border-[#f0dab5] rounded'>
-            <div className='w-[57px] bg-red-400 h-[55px] rounded-full'>
+        <div className='w-full my-2 py-3 flex flex-col border-b text-sm'>
+            <div className='w-full flex'>
+                <div className='w-[40px] bg-red-400 h-[40px] rounded-full'>
+                </div>
 
+                <div className='ml-3 flex flex-col justify-start'>
+                    <div>
+                        {comment.user.name}
+                    </div>
+                    <div className='text-sm text-slate-400'>
+                        {formatDistance(comment.createdAt, new Date())} ago
+                    </div>
+                </div>
             </div>
-            <div className='w-full h-[55px] ml-2 flex flex-col justify-between p-1'>
-                <div>
-                    {comment.content}
-                </div>
-                <div className='text-xs font-semibold text-[#ffb128]'>
-                    {comment.name}, {comment.date}
-                </div>
+            
+            <div className='w-full mt-3 px-1'>
+                {comment.content}
             </div>
         </div>
     )
