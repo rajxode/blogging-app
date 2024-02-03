@@ -201,7 +201,7 @@ module.exports.removeBlog = async(req,res) => {
 module.exports.addComment = async(req,res) => {
     try {
         
-        const { blogId } = req.params;
+        const { id } = req.params;
         const { content } = req.body;
 
         if(!content){
@@ -211,10 +211,10 @@ module.exports.addComment = async(req,res) => {
         const comment = await Comment.create({
             content,
             user:req.user._id,
-            blog:blogId
+            blog:id
         });
 
-        const blog = await Blog.findById(blogId);
+        const blog = await Blog.findById(id);
 
         blog.comments.push(comment._id);
         await blog.save(); 
@@ -233,11 +233,24 @@ module.exports.addComment = async(req,res) => {
 
 module.exports.removeComment = async(req,res) => {
     try {
-        const { blogId } = req.params;
-        // const comment = 
+        const {id} = req.params;
+
+        const comment = await Comment.findById(id);
+        const blogId = comment.blog;
+
+        const blog = await Blog.findById(blogId);
+
+        const comments = blog.comments;
+        const newComments = comments.filter((comment) => comment !== id );
+
+        blog.comments = newComments;
+        blog.save();
+
+        await Comment.findByIdAndDelete(id);
+
         return res.status(201).json({
             success:true,
-            blogId
+            
         })
 
     } catch (error) {

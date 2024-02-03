@@ -12,7 +12,6 @@ export const getOneBlogThunk = createAsyncThunk(
     async(id,thunkAPI) => {
         try {
             const response = await axiosInstance.get(`/blogs/${id}`);
-            console.log(response.data);
             thunkAPI.dispatch(setSingleBlog(response.data.blog));
         } catch (error) {
             return {
@@ -154,6 +153,33 @@ export const addCommentThunk = createAsyncThunk(
 )
 
 
+export const deleteCommentThunk = createAsyncThunk(
+    'blog/deleteComment',
+    async({id},thunkAPI) => {
+        try {
+            const isToken = localStorage.getItem('token');
+            // if token not present return
+            if(!isToken){
+                return;
+            }
+            const token = JSON.parse(isToken);
+            // call api
+            const response = await axiosInstance.delete(`/blogs/comment/${id}`,{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            return {
+                success:false,
+                message:error.response.data.error
+            }
+        }
+    }
+)
+
+
 // blog slice
 const blogSlice = createSlice({
     name:'blog',
@@ -198,6 +224,18 @@ const blogSlice = createSlice({
             state.loading = true;
         })
         .addCase(deleteBlogThunk.fulfilled, (state,action) => {
+            state.loading = false;
+        })
+        .addCase(addCommentThunk.pending, (state,action) => {
+            state.loading = true;
+        })
+        .addCase(addCommentThunk.fulfilled, (state,action) => {
+            state.loading = false;
+        })
+        .addCase(deleteCommentThunk.pending, (state,action) => {
+            state.loading = true;
+        })
+        .addCase(deleteCommentThunk.fulfilled, (state,action) => {
             state.loading = false;
         })
     }

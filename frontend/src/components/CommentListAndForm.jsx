@@ -8,6 +8,8 @@ function CommentListAndForm() {
 
     const { singleBlog } = useSelector(blogSelector);
 
+    const comments = singleBlog.comments.slice(0).reverse();
+
     return (
         <div className='w-full mt-4 flex flex-col items-center 
                 p-3 rounded h-full'>
@@ -16,10 +18,10 @@ function CommentListAndForm() {
 
             <div className='w-full flex flex-col justify-between items-center mt-5'>
                 {
-                    singleBlog.comments.length === 0 && <h1>No comments</h1>
+                    comments.length === 0 && <h1>No comments</h1>
                 }
                 {
-                    singleBlog.comments.map((comment,i) => <SingleComment key={i} comment={comment} />)
+                    comments.map((comment,i) => <SingleComment key={i} comment={comment} />)
                 }
             </div>
         </div>

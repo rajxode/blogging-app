@@ -51,6 +51,14 @@ function SingleBlogPage() {
       :  
       <div className='w-1/2 py-[3%] min-h-[92vh] flex flex-col mx-auto justify-between relative'>
         
+        {
+          showComments
+          ?
+          <div className='fixed top-0 left-0 w-screen h-full bg-gray-200 opacity-40'></div>
+          :
+          null
+        }
+
         {/* if user is logged in and id of loggedin user and blog author's id matches */}
         {
           user && ( user._id === singleBlog.user._id )
