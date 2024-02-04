@@ -8,7 +8,7 @@ const likeSchema = new mongoose.Schema({
         },
         blog:{
             type:mongoose.Schema.Types.ObjectId,
-                ref:'Blog'
+            ref:'Blog'
         }
     },
     {

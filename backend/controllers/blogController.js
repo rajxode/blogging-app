@@ -1,4 +1,5 @@
 
+const Like = require('../models/Like');
 const Blog = require('../models/Blog');
 const cloudinary = require('cloudinary').v2;
 const Comment = require('../models/Comment');
@@ -90,7 +91,8 @@ module.exports.getOneBlog = async(req,res) => {
                                 model: 'User',
                                 select: 'name email',
                             },
-                        });
+                        })
+                        .populate('likes','user');
 
         if(!blog){
             return res.status(400).json({
@@ -185,8 +187,10 @@ module.exports.removeBlog = async(req,res) => {
 
         await cloudinary.uploader.destroy(thumbnailId);
 
+        await Comment.deleteMany({blog:id});
+        await Like.deleteMany({blog:id});
         await Blog.findByIdAndDelete(id);
-        
+
         return res.status(200).json({
             success:true
         })
@@ -241,7 +245,7 @@ module.exports.removeComment = async(req,res) => {
         const blog = await Blog.findById(blogId);
 
         const comments = blog.comments;
-        const newComments = comments.filter((comment) => comment !== id );
+        const newComments = await comments.filter((comment) => JSON.stringify(comment) !== JSON.stringify(id) );
 
         blog.comments = newComments;
         blog.save();
@@ -265,9 +269,32 @@ module.exports.toggleLike = async(req,res) => {
     try {
         const { blogId } = req.params;
 
+        const blog = await Blog.findById(blogId);
+        const alreadyLiked = await Like.findOne({user:req.user._id,blog:blogId});
+
+        if(alreadyLiked){
+            console.log('already',alreadyLiked);
+            const oldLikes = blog.likes;
+            const newLikes = await oldLikes.filter((like) => JSON.stringify(like) !== JSON.stringify(alreadyLiked._id) );
+            
+            blog.likes = newLikes;
+            await blog.save();
+
+            await Like.findByIdAndDelete(alreadyLiked._id);
+        } else {
+            console.log('first');
+            const newLike = await Like.create({
+                user:req.user._id,
+                blog:blogId
+            })
+
+            blog.likes.push(newLike._id);
+            await blog.save();
+        }
+
+
         return res.status(200).json({
             success:true,
-            blogId
         })
     } catch (error) {
         return res.status(500).json({

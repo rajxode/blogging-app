@@ -180,6 +180,32 @@ export const deleteCommentThunk = createAsyncThunk(
 )
 
 
+export const toggleLikeThunk = createAsyncThunk(
+    'blog/toggleLike',
+    async(id,thunkAPI) => {
+        try {
+            const isToken = localStorage.getItem('token');
+            // if token not present return
+            if(!isToken){
+                return;
+            }
+            const token = JSON.parse(isToken);
+            // call api
+            const response = await axiosInstance.get(`/blogs/togglelike/${id}`,{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            return {
+                success:false,
+                message:error.response.data.error
+            }
+        }
+    }
+)
+
 // blog slice
 const blogSlice = createSlice({
     name:'blog',
