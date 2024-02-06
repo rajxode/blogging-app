@@ -4,17 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { blogSelector, getOneBlogThunk, toggleLikeThunk } from '../reducers/blogReducer';
 import { authSelector } from '../reducers/authReducer';
+import BookmarkBlog from './BookmarkBlog';
 
 function LikeAndCommentTab({showComments,setShowComments,comments,likes}) {
 
   const dispatch = useDispatch();
-  const { user } = useSelector(authSelector);
+  const { loggedInUser } = useSelector(authSelector);
   const { singleBlog } = useSelector(blogSelector);
   const [ isLiked, setIsLiked ] = useState(false);
 
   const checkIsLiked = () => {
     for(let i=0; i< likes.length; i++){
-      if(likes[i].user === user._id){
+      if(likes[i].user === loggedInUser._id){
         setIsLiked(true);
         return;
       }
@@ -72,10 +73,7 @@ function LikeAndCommentTab({showComments,setShowComments,comments,likes}) {
           </div>
         </div>
 
-        <div>
-          <i class="fa-regular fa-bookmark"></i>
-          {/* <i class="fa-solid fa-bookmark"></i> */}
-        </div>
+        <BookmarkBlog id={singleBlog._id} />
 
       </div>
   )

@@ -3,11 +3,12 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getOneBlogThunk } from '../reducers/blogReducer';
 import { format } from 'date-fns';
+import BookmarkBlog from './BookmarkBlog';
 
 function BlogCard(props) {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();    
+    const navigate = useNavigate();
     const { title, summary, thumbnail, createdAt, user, _id, tags } = props.post;
 
     const handleClick = (e) => {
@@ -40,10 +41,8 @@ function BlogCard(props) {
                             {tags[0]}
                         </div>
                     </div>
-                    <div>
-                        <i class="fa-regular fa-bookmark"></i>
-                        {/* <i class="fa-solid fa-bookmark"></i> */}
-                    </div>
+                    
+                    <BookmarkBlog id={_id} />
                 </div>
             </div>
             <div className='md:h-full h-auto w-full md:w-[35%] cursor-pointer'

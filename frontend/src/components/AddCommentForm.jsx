@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 function AddCommentForm() {
 
     const dispatch = useDispatch();
-    const { user } = useSelector(authSelector);
+    const { loggedInUser } = useSelector(authSelector);
     const { singleBlog } = useSelector(blogSelector);
     const [ commentContent , setCommentContent ] = useState('');
     
@@ -35,7 +35,7 @@ function AddCommentForm() {
 
                     </div>
                     <div className='ml-3 flex items-center'>
-                        <div>{user.name}</div>
+                        <div>{loggedInUser.name}</div>
                     </div>
                 </div>
                 

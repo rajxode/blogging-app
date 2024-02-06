@@ -1,4 +1,5 @@
 
+const User = require('../models/User');
 const Like = require('../models/Like');
 const Blog = require('../models/Blog');
 const cloudinary = require('cloudinary').v2;
@@ -32,6 +33,12 @@ module.exports.addBlog = async(req,res) => {
 
         // data from req.body
         const { title, summary, content, tags } = req.body;
+
+        if(!title || !summary || !content){
+            return res.status(400).json({
+                error:'Please enter valid data for your blog'
+            });
+        }
         
         // if no thumbnail for blog is present
         if(!req.file){
@@ -273,7 +280,6 @@ module.exports.toggleLike = async(req,res) => {
         const alreadyLiked = await Like.findOne({user:req.user._id,blog:blogId});
 
         if(alreadyLiked){
-            console.log('already',alreadyLiked);
             const oldLikes = blog.likes;
             const newLikes = await oldLikes.filter((like) => JSON.stringify(like) !== JSON.stringify(alreadyLiked._id) );
             
@@ -282,7 +288,6 @@ module.exports.toggleLike = async(req,res) => {
 
             await Like.findByIdAndDelete(alreadyLiked._id);
         } else {
-            console.log('first');
             const newLike = await Like.create({
                 user:req.user._id,
                 blog:blogId
@@ -300,5 +305,32 @@ module.exports.toggleLike = async(req,res) => {
         return res.status(500).json({
             error:error.message
         })     
+    }
+}
+
+
+module.exports.toggleSaveBlog = async(req,res) => {
+    try {
+        const { blogId } = req.params;
+
+        const user = await User.findById(req.user._id);
+
+        if(user.savedBlogs.includes(blogId)){
+            const newBlogs = await user.savedBlogs.filter((blog) => JSON.stringify(blog) !== JSON.stringify(blogId));
+            user.savedBlogs = newBlogs;
+        } else {
+            user.savedBlogs.push(blogId);
+        }
+        
+        await user.save();
+
+        return res.status(200).json({
+            success:true,
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            error:error.message
+        })
     }
 }

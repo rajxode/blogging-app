@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 function Navbar() {
     
-    const { user } = useSelector(authSelector);
+    const { loggedInUser } = useSelector(authSelector);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -49,13 +49,13 @@ function Navbar() {
     return (
         <div className='w-full relative'>
             <div className={`w-full min-h-[75px] h-auto flex px-[2%] md:px-[10%] flex-col shrink-0 border-b
-                border-black justify-center sticky top-0 left-0 ${scrolled || user ? 'bg-white z-10' : 'bg-[#FFC017]'}`}
+                border-black justify-center sticky top-0 left-0 ${scrolled || loggedInUser ? 'bg-white z-10' : 'bg-[#FFC017]'}`}
             >
                 <div className='w-full flex justify-between items-center h-[55px] text-black'>
 
                     <div className='flex justify-start items-center'>
                         <div className='text-3xl font-bold font-serif'>
-                            <Link to={`${user ? '/home' : '/'}`}>
+                            <Link to={`${loggedInUser ? '/home' : '/'}`}>
                                 <span><i class="fa-brands fa-medium"></i></span> <span className='hidden sm:inline'>Medium</span>
                             </Link>
                         </div>
@@ -66,7 +66,7 @@ function Navbar() {
                     >
                         <div className='hidden sm:block'>
                             {
-                                user
+                                loggedInUser
                                 ?
                                 <div className='hidden md:flex justify-around items-center min-w-1/4 px-2 ml-3'>
                                     <div className='flex items-center mr-2 px-2 py-1 rounded-full cursor-pointer'>
@@ -88,7 +88,7 @@ function Navbar() {
 
                         <div>
                             {
-                                user
+                                loggedInUser
                                 ?
                                 <div onClick={() => setShowMenu(!showMenu)}
                                         className='bg-red-400 h-[50px] w-[50px] rounded-full relative cursor-pointer'

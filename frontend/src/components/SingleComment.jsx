@@ -10,7 +10,7 @@ function SingleComment(props) {
 
     const dispatch = useDispatch();
     const [ showDeleteMenu, setShowDeleteMenu ] = useState(false);
-    const { user } = useSelector(authSelector);
+    const { loggedInUser } = useSelector(authSelector);
     const { singleBlog } = useSelector(blogSelector);
     const { comment } = props;
     
@@ -49,7 +49,7 @@ function SingleComment(props) {
 
                 <div>
                     {
-                        comment.user._id === user._id
+                        comment.user._id === loggedInUser._id
                         ?
                         <div className='relative'>
                             <span className='text-lg text-gray-400 hover:text-black px-1 rounded-full cursor-pointer'

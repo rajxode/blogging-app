@@ -12,7 +12,7 @@ function UsersProfile() {
     const dispatch = useDispatch();
 
     const  { loading } = useSelector(blogSelector);
-    const { isLoading, user } = useSelector(authSelector);
+    const { isLoading, loggedInUser } = useSelector(authSelector);
 
     useEffect(() => {
         dispatch(getLoggedInUserThunk());
@@ -26,8 +26,8 @@ function UsersProfile() {
             <Loader />
             :
             <div className='w-full px-[10%] pt-[3%] flex justify-between h-[80vh]'>
-                <ProfileMain user={user} />
-                <ProfileAside user={user} />
+                <ProfileMain user={loggedInUser} />
+                <ProfileAside user={loggedInUser} />
             </div>  
         }
         </>

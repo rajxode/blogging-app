@@ -206,6 +206,34 @@ export const toggleLikeThunk = createAsyncThunk(
     }
 )
 
+
+export const toggleSaveBlogThunk = createAsyncThunk(
+    'blog/toggleSaveBlog',
+    async(id,thunkAPI) => {
+        try {
+            const isToken = localStorage.getItem('token');
+            // if token not present return
+            if(!isToken){
+                return;
+            }
+            const token = JSON.parse(isToken);
+            // call api
+            const response = await axiosInstance.get(`/blogs/saveblog/${id}`,{
+                headers:{
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            return {
+                success:false,
+                message:error.response.data.error
+            }
+        }
+    }
+)
+
 // blog slice
 const blogSlice = createSlice({
     name:'blog',

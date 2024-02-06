@@ -23,6 +23,7 @@ router.route('/comment/:id')
     .delete(isLoggedIn,blogController.removeComment);
 
 router.route('/togglelike/:blogId').get(isLoggedIn,blogController.toggleLike);
+router.route('/saveblog/:blogId').get(isLoggedIn,blogController.toggleSaveBlog);
 
 router.route('/:id')
         .get(blogController.getOneBlog)

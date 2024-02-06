@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axiosInstance from '../utils/axios';
 
-const initialState = { user:null , isLoading:false };
+const initialState = { loggedInUser:null , isLoading:false };
 
 // sign up user
 export const createUserThunk = createAsyncThunk(
@@ -29,7 +29,7 @@ export const loginUserThunk = createAsyncThunk(
             const response = await axiosInstance.post('/users/login',{formData});
             const { token , user } = response.data;
             localStorage.setItem('token',JSON.stringify(token));
-            thunkAPI.dispatch(setUser(user));
+            thunkAPI.dispatch(setLoggedInUser(user));
             return response.data;
         } catch (error) {
             return {
@@ -60,7 +60,7 @@ export const logoutUserThunk = createAsyncThunk(
             });
             // remove token from localstorage
             localStorage.removeItem('token');
-            thunkAPI.dispatch(setUser(null));
+            thunkAPI.dispatch(setLoggedInUser(null));
             return response.data.success;
         } catch (error) {
             return {
@@ -90,7 +90,7 @@ export const getLoggedInUserThunk = createAsyncThunk(
                 }
             });
             // store the data
-            thunkAPI.dispatch(setUser(response.data.user));
+            thunkAPI.dispatch(setLoggedInUser(response.data.user));
         } catch (error) {
             return {
                 success:false,
@@ -106,8 +106,8 @@ const authSlice = createSlice({
     name:'authentication',
     initialState,
     reducers:{
-        setUser:(state,action) => {
-            state.user = action.payload;
+        setLoggedInUser:(state,action) => {
+            state.loggedInUser = action.payload;
             return;
         }
     },
@@ -145,7 +145,7 @@ const authSlice = createSlice({
 export const authReducer = authSlice.reducer;
 
 // actions
-export const { setUser } = authSlice.actions;
+export const { setLoggedInUser } = authSlice.actions;
 
 // selector
 export const authSelector = (state) => state.authReducer;
