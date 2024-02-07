@@ -4,24 +4,27 @@ import { NavLink } from 'react-router-dom';
 
 function ProfileNavbar() {
     return (
-        <div className='w-full border-b flex mt-5'>
+        <div className='w-full border-b flex my-4'>
             <NavLink 
-                to="/profile"
-                className={({ isActive }) =>
-                  isActive ? "underline underline-offset-4" : ""
+                to="/profile/mylist"
+                style={({ isActive }) =>
+                    (isActive ? {textDecoration:'underline' , textDecorationColor:'#1a8917' , textDecorationThickness:'3px'} : undefined)
                 }
+                className='underline-offset-4'
             >
-                Home
+                Your List
             </NavLink>
             
             <NavLink 
                 to="/profile/library"
-                className={({ isActive }) =>
-                  isActive ? "underline underline-offset-4" : ""
+                style={({ isActive }) =>
+                    (isActive ? {textDecoration:'underline' , textDecorationColor:'#1a8917' , textDecorationThickness:'3px'} : undefined)
                 }
+                className='underline-offset-4 mx-4'
             >
-                Saved
+                Saved List
             </NavLink>
+
         </div>
     )
 }

@@ -1,14 +1,16 @@
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getOneBlogThunk } from '../reducers/blogReducer';
 import { format } from 'date-fns';
 import BookmarkBlog from './BookmarkBlog';
+import { authSelector } from '../reducers/authReducer';
 
 function BlogCard(props) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { loggedInUser } = useSelector(authSelector);
     const { title, summary, thumbnail, createdAt, user, _id, tags } = props.post;
 
     const handleClick = (e) => {
@@ -42,7 +44,9 @@ function BlogCard(props) {
                         </div>
                     </div>
                     
-                    <BookmarkBlog id={_id} />
+                    {
+                        loggedInUser && user._id !== loggedInUser._id && <BookmarkBlog id={_id} />
+                    }
                 </div>
             </div>
             <div className='md:h-full h-auto w-full md:w-[35%] cursor-pointer'

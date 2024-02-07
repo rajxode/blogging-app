@@ -6,6 +6,7 @@ import { authSelector, getLoggedInUserThunk } from '../reducers/authReducer';
 import Loader from '../components/Loader';
 import { blogSelector, getAllBlogsThunk } from '../reducers/blogReducer';
 import BlogList from '../components/BlogList';
+import Aside from '../components/Aside';
 
 
 function Home() {
@@ -32,8 +33,11 @@ function Home() {
             <Loader />
             :
             <div className='w-full py-[2%] flex flex-col'>
-                <div className="w-full">
-                    <BlogList />
+                <div className="w-full flex justify-between items-start px-[10%] py-[5vh]">
+                    <div className='w-3/5'>
+                        <BlogList />
+                    </div>
+                    <Aside />
                 </div>
             </div>
         }

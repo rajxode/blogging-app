@@ -15,6 +15,7 @@ function UsersProfile() {
     const { isLoading, loggedInUser } = useSelector(authSelector);
 
     useEffect(() => {
+        document.title = `${loggedInUser.name} | Medium` 
         dispatch(getLoggedInUserThunk());
     },[]);
 

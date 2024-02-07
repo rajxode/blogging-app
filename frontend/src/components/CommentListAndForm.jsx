@@ -3,9 +3,11 @@ import { useSelector } from 'react-redux';
 import SingleComment from './SingleComment';
 import AddCommentForm from './AddCommentForm';
 import { blogSelector } from '../reducers/blogReducer';
+import { authSelector } from '../reducers/authReducer';
 
 function CommentListAndForm() {
 
+    const { loggedInUser } = useSelector(authSelector);
     const { singleBlog } = useSelector(blogSelector);
 
     const comments = singleBlog.comments.slice(0).reverse();
@@ -14,7 +16,9 @@ function CommentListAndForm() {
         <div className='w-full mt-4 flex flex-col items-center 
                 p-3 rounded h-full'>
             
-            <AddCommentForm />
+            {
+                loggedInUser && <AddCommentForm />
+            }
 
             <div className='w-full flex flex-col justify-between items-center mt-5'>
                 {

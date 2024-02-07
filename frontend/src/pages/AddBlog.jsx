@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch , useSelector } from 'react-redux';
 import { addBlogThunk, blogSelector } from '../reducers/blogReducer';
+import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import { toast } from 'react-toastify';
 import TagInput from '../components/TagInput';
@@ -19,6 +20,8 @@ const initialState = {
 
 function AddBlog() {
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading } = useSelector(blogSelector);
 
   const [formData,setFormData] = useState({
@@ -28,8 +31,6 @@ function AddBlog() {
     content:null,
     tags:null
   });
-
-  const dispatch = useDispatch();
 
   const [file,setFile] = useState();
 	const [content, setContent] = useState('');
@@ -65,11 +66,11 @@ function AddBlog() {
     if(result.payload){
       toast.success('New blog added !!!')
       resetData();
+      navigate('/');
     }
     else{
       toast.error(result.payload.message);
     }
-    
   }
 
   return (

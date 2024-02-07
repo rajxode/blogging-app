@@ -16,7 +16,7 @@ function SingleBlogPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, singleBlog } = useSelector(blogSelector);
-  const { isLoading, user } = useSelector(authSelector);
+  const { isLoading, loggedInUser } = useSelector(authSelector);
   const [ showEditMenu, setShowEditMenu ] = useState(false);
   const [ showComments, setShowComments ] = useState(false); 
 
@@ -61,7 +61,7 @@ function SingleBlogPage() {
 
         {/* if user is logged in and id of loggedin user and blog author's id matches */}
         {
-          user && ( user._id === singleBlog.user._id )
+          loggedInUser && ( loggedInUser._id === singleBlog.user._id )
           ?
           <div className='flex justify-end relative'>
             <span className='cursor-pointer px-2 py-[2px] rounded-full hover:bg-slate-200 text-lg 

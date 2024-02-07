@@ -10,8 +10,8 @@ import SingleBlogPage from './pages/SingleBlogPage';
 import EditBlog from './pages/EditBlog';
 import UsersProfile from './pages/UsersProfile';
 import Settings from './pages/Settings';
-import BlogList from './components/BlogList';
-import MyLibrary from './pages/MyLibrary';
+import MyLibrary from './components/MyLibrary';
+import MyBlogs from './components/MyBlogs';
 
 function App() {
 
@@ -27,7 +27,7 @@ function App() {
           <Route path='singleblog/:id' element={<SingleBlogPage />} />
           <Route path='editblog/:id' element={<EditBlog />} />
           <Route path='profile' element={<UsersProfile />} >
-            <Route index element={<BlogList />} />
+            <Route path='mylist' element={<MyBlogs />} />
             <Route path='library' element={<MyLibrary />} />
           </Route>
           <Route path='/settings' element={<Settings />} />

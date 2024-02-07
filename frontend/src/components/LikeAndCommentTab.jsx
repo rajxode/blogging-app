@@ -25,12 +25,17 @@ function LikeAndCommentTab({showComments,setShowComments,comments,likes}) {
   }
 
   useEffect(() => {
-    checkIsLiked();
+    if(loggedInUser){
+      checkIsLiked();
+    }
   },[]);
 
   const handleLikeClick = async(e) =>{
     try {
       e.preventDefault();
+      if(!loggedInUser){
+        throw new Error('Please login first !!')
+      }
       const result = await dispatch(toggleLikeThunk(singleBlog._id));
       if(!result.payload.success){
         throw new Error(result.payload.message);
@@ -73,7 +78,9 @@ function LikeAndCommentTab({showComments,setShowComments,comments,likes}) {
           </div>
         </div>
 
-        <BookmarkBlog id={singleBlog._id} />
+         {
+          loggedInUser && singleBlog.user._id !== loggedInUser._id && <BookmarkBlog id={singleBlog._id} />
+         }     
 
       </div>
   )

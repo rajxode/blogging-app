@@ -5,6 +5,7 @@ import HomeBanner from '../components/HomeBanner';
 import { useDispatch , useSelector } from 'react-redux';
 import { blogSelector, getAllBlogsThunk } from '../reducers/blogReducer';
 import Loader from '../components/Loader';
+import Aside from '../components/Aside';
 
 function LandingPage() {
 
@@ -25,7 +26,12 @@ function LandingPage() {
         :
         <div className='w-full'>
           <HomeBanner />
-          <BlogList />
+          <div className="w-full flex justify-between items-start px-[10%] py-[5vh]">
+              <div className='w-3/5'>
+                <BlogList />
+              </div>
+              <Aside />
+          </div>
         </div>
       }
     </>

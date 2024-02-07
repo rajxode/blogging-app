@@ -223,7 +223,6 @@ export const toggleSaveBlogThunk = createAsyncThunk(
                     'Authorization':`Bearer ${token}`
                 }
             });
-            console.log(response.data);
             return response.data;
         } catch (error) {
             return {
@@ -233,6 +232,9 @@ export const toggleSaveBlogThunk = createAsyncThunk(
         }
     }
 )
+
+
+
 
 // blog slice
 const blogSlice = createSlice({

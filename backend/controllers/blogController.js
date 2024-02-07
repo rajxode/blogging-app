@@ -12,6 +12,47 @@ module.exports.getBlogs = async(req,res) => {
         // get all blogs
         const blogs = await Blog.find({})
                         .populate('user', 'name email')
+                        .sort({createdAt : -1});
+
+        // return response
+        return res.status(200).json({
+            success:true,
+            blogs
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error:error.message
+        })
+    }
+}
+
+// get list of all the blogs inside the database
+module.exports.getMyBlogs = async(req,res) => {
+    try {
+        // get all blogs
+        const blogs = await Blog.find({user:req.user._id})
+                        .populate('user', 'name email')
+                        .sort({updatedAt : -1});
+
+        // return response
+        return res.status(200).json({
+            success:true,
+            blogs
+        })
+    } catch (error) {
+        return res.status(500).json({
+            error:error.message
+        })
+    }
+}
+
+
+// get list of all the blogs inside the database
+module.exports.getMySavedBlogs = async(req,res) => {
+    try {
+        // get all blogs
+        const blogs = await Blog.find({})
+                        .populate('user', 'name email')
                         .sort({updatedAt : -1});
 
         // return response
