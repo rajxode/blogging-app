@@ -80,7 +80,7 @@ function AddBlog() {
       ?
       <Loader />
       :
-      <div className='w-full px-[10%] flex flex-col items-center pt-[3%] min-h-[90vh]'>
+      <div className='w-full px-[2%] md:px-[10%] flex flex-col items-center pt-[3%] min-h-[90vh]'>
 
         <div className='w-full flex justify-end'>
 
@@ -104,7 +104,7 @@ function AddBlog() {
             required
             value={formData.title}
             onChange={(e) => setFormData({...formData,title:e.target.value})}
-            className='w-full focus:outline-none px-2 py-1 rounded h-[75px] text-5xl' />
+            className='w-full focus:outline-none px-2 py-1 rounded h-[75px] text-3xl md:text-5xl' />
         </div>
         
         <ThumbnailUploader file={file} handleImageChange={handleImageChange} />
@@ -116,7 +116,7 @@ function AddBlog() {
             required
             value={formData.summary}
             onChange={(e) => setFormData({...formData,summary:e.target.value})}
-            className='w-full focus:outline-none px-2 py-1 rounded text-xl mb-2' />
+            className='w-full focus:outline-none px-2 py-1 rounded text-lg md:text-xl mb-2' />
         </div>
 
         <TagInput tags={tags} setTags={setTags} />

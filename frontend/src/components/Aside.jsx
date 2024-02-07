@@ -13,7 +13,7 @@ const category = ['Programming',
 
 function Aside() {
     return (
-        <div className='w-1/3 flex flex-col justify-between sticky top-[15vh]'>
+        <div className='w-1/3 hidden md:flex flex-col justify-between sticky top-[15vh]'>
           <div>
             <h1 className='font-bold'>
               Discover more of what matters to you

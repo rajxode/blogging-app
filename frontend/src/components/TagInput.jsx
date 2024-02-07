@@ -37,10 +37,10 @@ function TagInput({tags,setTags}) {
             <input 
               type="text"
               id='tags'
-              placeholder='Add Tags (max. 3)'
+              placeholder='press enter for adding tag (max. 3)'
               required
               onKeyUp={handleKeyPress}
-              className='focus:outline-none' />
+              className='focus:outline-none w-fit' />
           </ul>
         </div>
     )

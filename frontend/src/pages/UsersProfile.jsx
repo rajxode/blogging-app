@@ -26,7 +26,7 @@ function UsersProfile() {
             ?
             <Loader />
             :
-            <div className='w-full px-[10%] pt-[3%] flex justify-between h-[80vh]'>
+            <div className='w-full px-[2%] md:px-[10%] pt-[3%] flex justify-between h-[80vh]'>
                 <ProfileMain user={loggedInUser} />
                 <ProfileAside user={loggedInUser} />
             </div>  

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function ProfileAside({user}) {    
 
     return (
-        <div className="w-1/3 flex flex-col rounded border-l px-3">
+        <div className="hidden w-1/3 md:flex flex-col rounded border-l px-3">
             <div className="w-full h-[150px] flex justify-center items-center">
                 <div className="h-[125px] w-[125px] bg-green-600 rounded-full">
 

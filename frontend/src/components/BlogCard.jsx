@@ -22,7 +22,7 @@ function BlogCard(props) {
 
     return (
         <div className='flex flex-col md:flex-row w-full min-h-[175px] my-2 justify-between pb-3 border-b'>
-            <div className='flex flex-col w-full h-auto md:w-[62%] md:h-full justify-start'>
+            <div className='flex flex-col w-full h-auto mb-2 md:mb-0 md:w-[62%] md:h-full justify-start'>
                 
                 <div className='w-full text-sm font-semibold'>
                     { user.name } &#8729; {format(new Date(createdAt), 'MMM d, yyyy')}
@@ -51,7 +51,7 @@ function BlogCard(props) {
             </div>
             <div className='md:h-full h-auto w-full md:w-[35%] cursor-pointer'
                 onClick={handleClick}>
-                <img src={thumbnail.secure_url} alt="image" className='h-full w-full rounded'/>
+                <img src={thumbnail.secure_url} alt="image" className='h-auto md:h-full w-full rounded'/>
             </div>
         </div>
     )
