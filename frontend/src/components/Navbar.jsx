@@ -99,7 +99,7 @@ function Navbar() {
                                             <div className='absolute flex flex-col right-0 top-[7vh] bg-white shadow-lg w-[150px] text-slate-400 
                                                     border border-slate-100 rounded'>
                                                 <div className='flex flex-col justify-around py-2 border-b px-3'>
-                                                    <div className='pb-2'>
+                                                    <div className='pb-2 md:hidden'>
                                                         <Link to='/addblog' className='w-full hover:text-slate-600'>
                                                             <span><i class="fa-regular fa-pen-to-square"></i></span> Write
                                                         </Link>
@@ -117,7 +117,7 @@ function Navbar() {
                                                 </div>
                                                 <div className='flex flex-col justify-around py-2 border-b px-3'>
                                                     <div>
-                                                        <Link to='/settings' className='w-full hover:text-slate-600'>
+                                                        <Link to='/settings/editinfo' className='w-full hover:text-slate-600'>
                                                             Settings
                                                         </Link>
                                                     </div>

@@ -227,7 +227,7 @@ export const toggleSaveBlogThunk = createAsyncThunk(
         } catch (error) {
             return {
                 success:false,
-                message:error.response.data.error
+                error
             }
         }
     }

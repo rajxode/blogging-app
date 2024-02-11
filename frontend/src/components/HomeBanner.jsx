@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 
 function HomeBanner() {
 
@@ -16,9 +17,10 @@ function HomeBanner() {
                     </p>
                 </div>
                 <div className="mt-5 md:mt-0">
-                    <button className="px-4 py-1 rounded-full bg-black text-white shadow-sm">
+                    <Link to='/login' 
+                        className="px-4 py-1 rounded-full bg-black text-white shadow-sm">
                         Start Reading
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

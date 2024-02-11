@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { blogSelector, getOneBlogThunk, toggleLikeThunk } from '../reducers/blogReducer';
 import { authSelector } from '../reducers/authReducer';
@@ -8,6 +9,7 @@ import BookmarkBlog from './BookmarkBlog';
 
 function LikeAndCommentTab({showComments,setShowComments,comments,likes}) {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector(authSelector);
   const { singleBlog } = useSelector(blogSelector);
@@ -34,6 +36,7 @@ function LikeAndCommentTab({showComments,setShowComments,comments,likes}) {
     try {
       e.preventDefault();
       if(!loggedInUser){
+        navigate('/login');
         throw new Error('Please login first !!')
       }
       const result = await dispatch(toggleLikeThunk(singleBlog._id));

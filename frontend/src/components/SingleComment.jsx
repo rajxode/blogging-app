@@ -59,7 +59,7 @@ function SingleComment(props) {
                             {
                                 showDeleteMenu
                                 ?
-                                <button className='absolute top-5 right-0 px-3 py-[2px] shadow border rounded-sm border-gray-300'
+                                <button className='absolute top-5 right-0 px-3 py-[2px] shadow border rounded-sm border-gray-300 bg-white'
                                     onClick={handleDeleteComment}>
                                     Delete
                                 </button>

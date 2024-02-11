@@ -12,6 +12,10 @@ import UsersProfile from './pages/UsersProfile';
 import Settings from './pages/Settings';
 import MyLibrary from './components/MyLibrary';
 import MyBlogs from './components/MyBlogs';
+import EditInfo from './components/EditInfo';
+import ChangePassword from './components/ChangePassword';
+import ChangePicture from './components/ChangePicture';
+import Theme from './components/Theme';
 
 function App() {
 
@@ -30,7 +34,12 @@ function App() {
             <Route path='mylist' element={<MyBlogs />} />
             <Route path='library' element={<MyLibrary />} />
           </Route>
-          <Route path='/settings' element={<Settings />} />
+          <Route path='/settings' element={<Settings />} >
+            <Route path='editinfo' element={<EditInfo />} />
+            <Route path='picture' element={<ChangePicture />} />
+            <Route path='password' element={<ChangePassword />} />
+            <Route path='theme' element={<Theme />} />
+          </Route>
         </Route>
       </>
     )

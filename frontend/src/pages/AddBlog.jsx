@@ -66,7 +66,7 @@ function AddBlog() {
     if(result.payload){
       toast.success('New blog added !!!')
       resetData();
-      navigate('/');
+      navigate('/home');
     }
     else{
       toast.error(result.payload.message);
@@ -83,18 +83,17 @@ function AddBlog() {
       <div className='w-full px-[2%] md:px-[10%] flex flex-col items-center pt-[3%] min-h-[90vh]'>
 
         <div className='w-full flex justify-end'>
+            <button 
+              onClick={resetData}
+              className='px-4 py-1 bg-[#e0e0e0] rounded-full mr-2'>
+              Reset
+            </button>
 
-        <button 
-            onClick={resetData}
-            className='px-4 py-1 bg-[#e0e0e0] rounded-full mr-2'>
-            Reset
-          </button>
-
-          <button 
-            onClick={handleSubmit}
-            className='px-4 py-1 bg-[#1a8917] text-white rounded-full'> 
-            Publish
-          </button>
+            <button 
+              onClick={handleSubmit}
+              className='px-4 py-1 bg-[#1a8917] text-white rounded-full'> 
+              Publish
+            </button>
         </div>
         
         <div className='w-full mt-2'>

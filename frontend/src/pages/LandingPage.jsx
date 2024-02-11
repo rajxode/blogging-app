@@ -1,18 +1,23 @@
 
 import React, { useEffect } from 'react';
-import BlogList from '../components/BlogList';
 import HomeBanner from '../components/HomeBanner';
 import { useDispatch , useSelector } from 'react-redux';
 import { blogSelector, getAllBlogsThunk } from '../reducers/blogReducer';
 import Loader from '../components/Loader';
-import Aside from '../components/Aside';
+import { useNavigate } from 'react-router-dom';
+import MainContainer from '../components/MainContainer';
 
 function LandingPage() {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading } = useSelector(blogSelector);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(token){
+      navigate('/home');
+    }
     document.title = 'Medium';
     dispatch(getAllBlogsThunk());
   },[]);
@@ -26,12 +31,7 @@ function LandingPage() {
         :
         <div className='w-full'>
           <HomeBanner />
-          <div className="w-full flex justify-between items-start px-[2%] md:px-[10%] py-[5vh]">
-              <div className='w-full md:w-3/5'>
-                <BlogList />
-              </div>
-              <Aside />
-          </div>
+          <MainContainer />
         </div>
       }
     </>
