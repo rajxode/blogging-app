@@ -20,14 +20,14 @@ function SingleBlogPage() {
   const [ showEditMenu, setShowEditMenu ] = useState(false);
   const [ showComments, setShowComments ] = useState(false); 
 
-
-  useEffect(() => {
-    dispatch(getOneBlogThunk(id))
-  },[]);
-
   useEffect(() => {
     document.title = singleBlog.title;
   },[]);
+
+  useEffect(() => {
+    dispatch(getOneBlogThunk(id));
+  },[]);
+
 
   const handleDelBlog = async(e) => {
     e.preventDefault();
@@ -111,8 +111,8 @@ function SingleBlogPage() {
             {singleBlog.summary}
           </div>
           <div className='my-3 font-semibold text-slate-500 flex'>
-            <div className='w-[45px] h-[45px] rounded-full bg-red-400'>
-
+            <div className='w-[45px] h-[45px] rounded-full overflow-hidden'>
+              
             </div>
             <div className='ml-2 flex flex-col text-sm justify-center'>
               <div>{singleBlog.user.name}</div>

@@ -1,32 +1,29 @@
 
 import React from 'react';
 
-function ChangePassword() {
+function DeleteAccount() {
     return (
         <div className='w-full md:w-3/5 flex flex-col items-center'>
             <div className='text-3xl font-semibold'>
-                Update Password
+                Delete Account
             </div>
             
             <div className='w-full mt-4'>
                 <form className='w-full flex flex-col'>
-                    <div className='w-[48%] my-2 flex flex-col'>
-                        <label htmlFor="old_password"
-                            className='text-sm' >
-                            Old Password
+                    <div className='w-full my-2'>
+                        <input type="checkbox" id='checkbox' />
+                        <label htmlFor="checkbox" className='ml-2'>
+                            Yes, I want to delete my account.
                         </label>
-                        <input type="password"
-                            id='old_password'
-                            className='border-b border-black focus:outline-none' />
                     </div>
                     <div className='w-full flex justify-between'>
                         <div className='w-[48%] flex flex-col my-2'>
-                            <label htmlFor="new_password"
+                            <label htmlFor="password"
                                 className='text-sm' >
-                                New Password
+                                Password
                             </label>
                             <input type="password"
-                                id='new_password'
+                                id='password'
                                 className='border-b border-black focus:outline-none' />
                         </div>
                         <div className='w-[48%] flex flex-col my-2'>
@@ -51,4 +48,4 @@ function ChangePassword() {
     )
 }
 
-export default ChangePassword;
+export default DeleteAccount;

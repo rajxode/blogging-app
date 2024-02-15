@@ -4,6 +4,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { authSelector, getLoggedInUserThunk, logoutUserThunk } from '../reducers/authReducer';
 import { toast } from 'react-toastify';
+import ProfilePicture from './ProfilePicture';
 
 
 function Navbar() {
@@ -91,8 +92,11 @@ function Navbar() {
                                 loggedInUser
                                 ?
                                 <div onClick={() => setShowMenu(!showMenu)}
-                                        className='bg-red-400 h-[50px] w-[50px] rounded-full relative cursor-pointer'
+                                        className='h-[50px] w-[50px] relative cursor-pointer'
                                     >
+                                        <div className='w-full h-full rounded-full overflow-hidden shadow'>
+                                            <ProfilePicture />
+                                        </div>
                                         {
                                             showMenu
                                             ?
@@ -117,7 +121,7 @@ function Navbar() {
                                                 </div>
                                                 <div className='flex flex-col justify-around py-2 border-b px-3'>
                                                     <div>
-                                                        <Link to='/settings/editinfo' className='w-full hover:text-slate-600'>
+                                                        <Link to='/settings/account' className='w-full hover:text-slate-600'>
                                                             Settings
                                                         </Link>
                                                     </div>

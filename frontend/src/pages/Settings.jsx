@@ -11,13 +11,13 @@ function Settings() {
 
     return (
         <div className='px-[10%] mt-[5vh] flex flex-col justify-between h-[80vh]'>
-            <div className='w-full h-1/5 px-3 py-2 rounded flex flex-col'>
+            <div className='w-full h-1/5 px-3 flex flex-col'>
                 <div className='text-5xl font-semibold mb-5'>
                     { loggedInUser.name }
                 </div>
                 <SettingsNavbar />
             </div>
-            <div className='w-full h-3/4 px-3'>
+            <div className='w-full h-3/4 px-3 flex justify-center'>
                 <Outlet />
             </div>
         </div>

@@ -2,6 +2,7 @@
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const cloudinary = require('cloudinary').v2;
 
 // create a new user
 module.exports.create = async(req,res) => {
@@ -152,6 +153,85 @@ module.exports.myData = async(req,res) => {
             success:true,
             user
         });
+    } catch (error) {
+        return res.status(500).json({
+            error:error.message
+        });
+    }
+}
+
+
+module.exports.updateMyData = async(req,res) => {
+    try {
+        const { _id, email } = req.user;
+        let newData = {
+            name:req.body.name,
+            email:req.body.email,
+            bio:req.body.bio
+        };
+
+        if(email !== newData.email){
+            const emailExist = await User.findOne({email:newData.email});
+
+            if(emailExist){
+                throw new Error('Email Already exist, check again !!!');
+            }
+        }
+
+        if(req.file){
+
+            const { path } = req.file;
+
+            // upload file on cloudinary
+            const result = await cloudinary.uploader.upload(path,{
+                folder:'Medium/users'
+            });
+
+            newData.avatar = {
+                id:result.public_id,
+                secure_url:result.secure_url
+            }
+        }
+
+        const user = await User.findByIdAndUpdate(
+            _id,
+            newData,
+            {
+                new:true,
+                runValidators:true,
+                useFindAndModify: false,
+            }
+        )
+
+        user.password = undefined;
+
+        return res.status(200).json({
+            success:true,
+            user
+        })
+        
+    } catch (error) {
+        return res.status(500).json({
+            error:error.message
+        });
+    }
+}
+
+
+module.exports.updatePassword = async(req,res) => {
+    try {
+        
+    } catch (error) {
+        return res.status(500).json({
+            error:error.message
+        });
+    }
+}
+
+
+module.exports.deleteMyAccount = async(req,res) => {
+    try {
+        
     } catch (error) {
         return res.status(500).json({
             error:error.message

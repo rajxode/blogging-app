@@ -14,8 +14,8 @@ import MyLibrary from './components/MyLibrary';
 import MyBlogs from './components/MyBlogs';
 import EditInfo from './components/EditInfo';
 import ChangePassword from './components/ChangePassword';
-import ChangePicture from './components/ChangePicture';
 import Theme from './components/Theme';
+import DeleteAccount from './components/DeleteAccount';
 
 function App() {
 
@@ -35,8 +35,8 @@ function App() {
             <Route path='library' element={<MyLibrary />} />
           </Route>
           <Route path='/settings' element={<Settings />} >
-            <Route path='editinfo' element={<EditInfo />} />
-            <Route path='picture' element={<ChangePicture />} />
+            <Route path='account' element={<EditInfo />} />
+            <Route path='delete' element={<DeleteAccount />} />
             <Route path='password' element={<ChangePassword />} />
             <Route path='theme' element={<Theme />} />
           </Route>
