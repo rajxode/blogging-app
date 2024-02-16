@@ -174,7 +174,7 @@ module.exports.updateBlog = async(req,res) => {
             const thumbnailId = oldBlog.thumbnail.id;
             await cloudinary.uploader.destroy(thumbnailId);
 
-            const path = req.file;
+            const { path } = req.file;
 
             result = await cloudinary.uploader.upload(path,{
                 folder:'Medium/blog'

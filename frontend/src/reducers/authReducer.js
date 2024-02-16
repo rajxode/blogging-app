@@ -130,6 +130,33 @@ export const updateUserInfoThunk = createAsyncThunk(
     }
 )
 
+
+export const changePasswordThunk = createAsyncThunk(
+    'auth/changePassword',
+    async(formData,thunkAPI) => {
+        try {
+            // get token 
+            const isToken = localStorage.getItem('token');
+            if(!isToken){
+               return;
+            }
+            const token = JSON.parse(isToken);
+            // api call
+            const response = await axiosInstance.put('/users/updatepassword',formData,{
+               headers:{
+                    'Authorization':`Bearer ${token}`
+               }
+            });
+            return response.data;
+       } catch (error) {
+           return {
+               success:false,
+               message:error.response.data.error
+           }
+        }
+    }
+)
+
 // authentication slice
 const authSlice = createSlice({
     name:'authentication',
@@ -164,6 +191,12 @@ const authSlice = createSlice({
             state.isLoading = true;
         })
         .addCase(getLoggedInUserThunk.fulfilled , (state,action) => {
+            state.isLoading = false;
+        })
+        .addCase(updateUserInfoThunk.pending , (state,action) => {
+            state.isLoading = true;
+        })
+        .addCase(updateUserInfoThunk.fulfilled , (state,action) => {
             state.isLoading = false;
         })
     }

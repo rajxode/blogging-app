@@ -163,7 +163,7 @@ module.exports.myData = async(req,res) => {
 
 module.exports.updateMyData = async(req,res) => {
     try {
-        const { _id, email } = req.user;
+        const { _id, email, avatar } = req.user;
         let newData = {
             name:req.body.name,
             email:req.body.email,
@@ -179,6 +179,10 @@ module.exports.updateMyData = async(req,res) => {
         }
 
         if(req.file){
+
+            if(avatar.id){
+                await cloudinary.uploader.destroy(avatar.id);
+            }
 
             const { path } = req.file;
 
@@ -220,7 +224,43 @@ module.exports.updateMyData = async(req,res) => {
 
 module.exports.updatePassword = async(req,res) => {
     try {
+        // data entered by the user
+        const { password, newPassword } = req.body;
         
+        // check old password of user
+        const passwordMatch = await bcryptjs.compare(password,req.user.password);
+
+        // if old password doesn't matches
+        if(!passwordMatch){
+            throw new Error('Incorrect old password !!!');
+        }
+
+        // if the new the entered password is same as the old one
+        if( password === newPassword ){
+            throw new Error("Old and new password can't be same");
+        }
+
+        // encrypt new password password
+        const salt = await bcryptjs.genSalt(10);
+        const hashedPassword = await bcryptjs.hash(newPassword,salt);
+
+        // update user's password in database
+        const user = await User.findByIdAndUpdate(
+            req.user._id,
+            { password : hashedPassword },
+            {
+                new:true,
+                runValidators:true,
+                useFindAndModify: false,
+            }
+        )
+
+        
+        return res.status(200).json({
+            success:true,
+        });
+
+
     } catch (error) {
         return res.status(500).json({
             error:error.message
