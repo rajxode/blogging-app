@@ -23,7 +23,7 @@ router.route('/mydetails').get(isLoggedIn, userController.myData);
 
 router.route('/updatedetails').put(isLoggedIn,upload.single('file',1), userController.updateMyData);
 router.route('/updatepassword').put(isLoggedIn, userController.updatePassword);
-router.route('/deleteaccount').delete(isLoggedIn, userController.deleteMyAccount);
+router.route('/deleteaccount').put(isLoggedIn, userController.deleteMyAccount);
 
 // export
 module.exports = router;

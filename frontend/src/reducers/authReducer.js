@@ -115,7 +115,7 @@ export const updateUserInfoThunk = createAsyncThunk(
             const response = await axiosInstance.put('/users/updatedetails',formData,{
                headers:{
                     'Content-Type':'multipart/form-data',
-                   'Authorization':`Bearer ${token}`
+                    'Authorization':`Bearer ${token}`
                }
             });
             // store the data
@@ -147,6 +147,36 @@ export const changePasswordThunk = createAsyncThunk(
                     'Authorization':`Bearer ${token}`
                }
             });
+            return response.data;
+       } catch (error) {
+           return {
+               success:false,
+               message:error.response.data.error
+           }
+        }
+    }
+)
+
+
+export const deleteAccountThunk = createAsyncThunk(
+    'auth/deleteAccount',
+    async(formData,thunkAPI) => {
+        try {
+            // get token 
+            const isToken = localStorage.getItem('token');
+            if(!isToken){
+               return;
+            }
+            const token = JSON.parse(isToken);
+            // api call
+            const response = await axiosInstance.put('/users/deleteaccount',formData,{
+               headers:{
+                    'Authorization':`Bearer ${token}`,
+               }
+            });
+            // remove token from localstorage
+            localStorage.removeItem('token');
+            thunkAPI.dispatch(setLoggedInUser(null));
             return response.data;
        } catch (error) {
            return {

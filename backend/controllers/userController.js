@@ -2,6 +2,9 @@
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Like = require('../models/Like');
+const Comment = require('../models/Comment');
+const Blog = require('../models/Blog');
 const cloudinary = require('cloudinary').v2;
 
 // create a new user
@@ -255,7 +258,7 @@ module.exports.updatePassword = async(req,res) => {
             }
         )
 
-        
+
         return res.status(200).json({
             success:true,
         });
@@ -271,7 +274,48 @@ module.exports.updatePassword = async(req,res) => {
 
 module.exports.deleteMyAccount = async(req,res) => {
     try {
-        
+        const { password, cnfPassword } = req.body;
+
+        if( password !== cnfPassword ){
+            throw new Error('Password and confirm password not match !!!');
+        }
+
+        const passwordMatch = await bcryptjs.compare(password,req.user.password);
+
+        if(!passwordMatch){
+            throw new Error('Incorret Password');
+        }
+
+        await Like.deleteMany({user:req.user._id});
+        await Comment.deleteMany({user:req.user._id});
+
+        const blogs = await Blog.find({user:req.user._id});
+
+        for (let i = 0; i < blogs.length; i++ ){
+            const singleBlog = blogs[i];
+
+            await Like.deleteMany({blog:singleBlog._id});
+            await Comment.deleteMany({blog:singleBlog._id});
+
+            await cloudinary.uploader.destroy(singleBlog.thumbnail.id);
+
+            await Blog.findByIdAndDelete(singleBlog._id);
+        }
+
+        await User.findByIdAndDelete(req.user._id);
+
+        // remove the cookie
+        res.cookie('token',null,{
+            expires: new Date(
+                Date.now()
+            ),
+            httpOnly: true,
+        });
+
+        return res.status(200).json({
+            success:true,
+        })
+
     } catch (error) {
         return res.status(500).json({
             error:error.message
