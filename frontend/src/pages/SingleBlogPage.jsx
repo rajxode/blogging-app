@@ -18,11 +18,8 @@ function SingleBlogPage() {
   const { loading, singleBlog } = useSelector(blogSelector);
   const { isLoading, loggedInUser } = useSelector(authSelector);
   const [ showEditMenu, setShowEditMenu ] = useState(false);
-  const [ showComments, setShowComments ] = useState(false); 
+  const [ showComments, setShowComments ] = useState(false);
 
-  useEffect(() => {
-    document.title = singleBlog.title;
-  },[]);
 
   useEffect(() => {
     dispatch(getOneBlogThunk(id));
@@ -42,13 +39,15 @@ function SingleBlogPage() {
     }
   }
 
+  // Render nothing if singleBlog is not fetched yet
+  if (loading || isLoading || !singleBlog) {
+    return <Loader />;
+  }
+
   return (
     <>
     {
-      loading || isLoading
-      ?
-      <Loader />
-      :  
+      singleBlog &&
       <div className='w-full px-[2%] md:w-4/5 lg:px-0 lg:w-3/4 xl:w-1/2 py-[3%] min-h-[92vh] flex flex-col mx-auto justify-between relative'>
         
         {

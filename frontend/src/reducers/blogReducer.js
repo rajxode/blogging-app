@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axiosInstance from '../utils/axios';
 
 // blogs
-const initialState = { blogs:[] , loading:false, singleBlog:{} };
+const initialState = { blogs:[] , loading:false, singleBlog:null };
 
 
 export const getOneBlogThunk = createAsyncThunk(
