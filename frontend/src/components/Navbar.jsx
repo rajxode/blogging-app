@@ -139,7 +139,7 @@ function Navbar() {
                                 </div>
                                 :
                                 <Link to='/signup' 
-                                    className={`text-white px-3 py-1 rounded-full hover:bg-[#2c2c2c] shadow-sm ${scrolled ? 'bg-[#1a8917]' : 'bg-black'} `}>
+                                    className={`text-white px-3 py-2 text-sm rounded-full hover:bg-[#2c2c2c] shadow-sm ${scrolled ? 'bg-[#1a8917]' : 'bg-black'} `}>
                                     Get Started
                                 </Link>
                             }

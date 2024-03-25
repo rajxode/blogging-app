@@ -1,5 +1,5 @@
 
-import { RouterProvider, createBrowserRouter , createRoutesFromElements , Route } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, Outlet, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/LogIn';
@@ -16,17 +16,60 @@ import EditInfo from './components/EditInfo';
 import ChangePassword from './components/ChangePassword';
 import Theme from './components/Theme';
 import DeleteAccount from './components/DeleteAccount';
+import { jwtDecode } from 'jwt-decode';
+
+
+const isUserAuthenticated = () => {
+  const token = localStorage.getItem('token');
+  if(token){
+    const decodedToken = jwtDecode(token);
+    if (decodedToken.exp < Date.now() / 1000) {
+      return false;
+    }
+    return true;
+  }
+  return false;
+};
+
+
+const ProtectedRoute = () => {
+  const isAuthenticated = isUserAuthenticated();
+  const location = useLocation();
+  return isAuthenticated 
+    ?
+    <Outlet /> 
+    :
+    <Navigate to="/login" state={{from:location}} replace /> 
+};
+
+
+const ProtectedAuthRoute = () => {
+  const isAuthenticated = isUserAuthenticated();
+  const location = useLocation();
+  return !isAuthenticated 
+    ?
+    <Outlet /> 
+    :
+    <Navigate to="/home" state={{from:location}} replace /> 
+};
+
 
 function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
+      <Route element={<ProtectedAuthRoute />} >
         <Route path='/' element={<Navbar />}>
           <Route index element={<LandingPage />} />
           <Route path='login' element={<Login />} />
           <Route path='signup' element={<SignUp />} />
-          <Route path='home' element={<Home />} />
+        </Route>
+      </Route>
+
+      <Route element={<ProtectedRoute />} >
+        <Route path='home' element={<Navbar />} >
+          <Route index element={<Home />} />
           <Route path='addblog' element={<AddBlog />} />
           <Route path='singleblog/:id' element={<SingleBlogPage />} />
           <Route path='editblog/:id' element={<EditBlog />} />
@@ -34,12 +77,13 @@ function App() {
             <Route path='mylist' element={<MyBlogs />} />
             <Route path='library' element={<MyLibrary />} />
           </Route>
-          <Route path='/settings' element={<Settings />} >
+          <Route path='settings' element={<Settings />} >
             <Route path='account' element={<EditInfo />} />
             <Route path='delete' element={<DeleteAccount />} />
             <Route path='password' element={<ChangePassword />} />
             <Route path='theme' element={<Theme />} />
           </Route>
+        </Route>
         </Route>
       </>
     )
@@ -50,4 +94,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

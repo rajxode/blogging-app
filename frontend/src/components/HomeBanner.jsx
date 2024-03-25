@@ -18,7 +18,7 @@ function HomeBanner() {
                 </div>
                 <div className="mt-5 md:mt-0">
                     <Link to='/login' 
-                        className="px-4 py-1 rounded-full bg-black text-white shadow-sm">
+                        className="px-4 py-2 text-sm rounded-full bg-black text-white shadow-sm">
                         Start Reading
                     </Link>
                 </div>

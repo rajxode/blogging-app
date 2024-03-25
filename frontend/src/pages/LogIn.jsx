@@ -1,5 +1,4 @@
 
-
 import React, { useEffect, useState } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
 import { useDispatch , useSelector } from 'react-redux';
@@ -48,7 +47,7 @@ function Login() {
             :
             <div className='absolute w-full bg-[#f3f3f2] opacity-90 top-0 left-0 h-screen'>
                 <div className='w-full h-full flex justify-center items-center px-[5%]'>
-                    <div className='w-full md:w-4/5 lg:w-2/5 bg-white h-2/5 rounded 
+                    <div className='w-full md:w-4/5 lg:w-1/3 bg-white h-2/5 rounded 
                         shadow flex flex-col justify-between px-[3%] py-[1%] relative'
                         >
 
