@@ -5,17 +5,17 @@ import { RotatingLines } from 'react-loader-spinner';
 function Loader() {
   return (
     <div className='absolute top-0 left-0 w-full h-screen flex justify-center items-center bg-white opacity-95'>
-        <RotatingLines
+      <RotatingLines
         visible={true}
-        height="96"
-        width="96"
+        height="75"
+        width="75"
         color="grey"
-        strokeWidth="5"
+        strokeWidth="2"
         animationDuration="0.75"
         ariaLabel="rotating-lines-loading"
         wrapperStyle={{}}
         wrapperClass=""
-        />
+      />
     </div>
   )
 }

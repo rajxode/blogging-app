@@ -2,7 +2,6 @@
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, Outlet, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import Login from './pages/LogIn';
 import SignUp from './pages/SignUp';
 import LandingPage from './pages/LandingPage';
 import AddBlog from './pages/AddBlog';
@@ -39,7 +38,7 @@ const ProtectedRoute = () => {
     ?
     <Outlet /> 
     :
-    <Navigate to="/login" state={{from:location}} replace /> 
+    <Navigate to="/" state={{from:location}} replace /> 
 };
 
 
@@ -62,11 +61,9 @@ function App() {
       <Route element={<ProtectedAuthRoute />} >
         <Route path='/' element={<Navbar />}>
           <Route index element={<LandingPage />} />
-          <Route path='login' element={<Login />} />
           <Route path='signup' element={<SignUp />} />
         </Route>
       </Route>
-
       <Route element={<ProtectedRoute />} >
         <Route path='home' element={<Navbar />} >
           <Route index element={<Home />} />

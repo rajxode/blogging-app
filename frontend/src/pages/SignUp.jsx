@@ -101,13 +101,6 @@ function SignUp() {
                                 onClick={handleSubmit}>
                                 Create Account
                             </button>
-                            <div>
-                                Already have an account?
-                                &nbsp;
-                                <Link to='/login' className='text-[#1a8917] underline'>
-                                    Sign In
-                                </Link>
-                            </div>
                         </div>
                         </form>
                     </div>

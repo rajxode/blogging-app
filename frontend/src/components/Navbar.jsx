@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authSelector, getLoggedInUserThunk, logoutUserThunk } from '../reducers/authReducer';
 import { toast } from 'react-toastify';
 import ProfilePicture from './ProfilePicture';
-
+import Login from './landingPage/login';
 
 function Navbar() {
     
@@ -81,9 +81,7 @@ function Navbar() {
                                     </div>
                                 </div>
                                 :
-                                <Link className='hover:underline mx-4' to='/login'>
-                                    Sign In
-                                </Link>
+                                <Login />
                             }
                         </div>
 
@@ -148,7 +146,6 @@ function Navbar() {
 
 
                 </div>
-                
             </div>
             <Outlet />
         </div>
