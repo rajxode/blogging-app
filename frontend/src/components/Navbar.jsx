@@ -6,6 +6,7 @@ import { authSelector, getLoggedInUserThunk, logoutUserThunk } from '../reducers
 import { toast } from 'react-toastify';
 import ProfilePicture from './ProfilePicture';
 import Login from './landingPage/login';
+import GetStarted from './landingPage/GetStarted';
 
 function Navbar() {
     
@@ -81,7 +82,7 @@ function Navbar() {
                                     </div>
                                 </div>
                                 :
-                                <Login />
+                                null
                             }
                         </div>
 
@@ -136,10 +137,7 @@ function Navbar() {
                                         }
                                 </div>
                                 :
-                                <Link to='/signup' 
-                                    className={`text-white px-3 py-2 text-sm rounded-full hover:bg-[#2c2c2c] shadow-sm ${scrolled ? 'bg-[#1a8917]' : 'bg-black'} `}>
-                                    Get Started
-                                </Link>
+                                <GetStarted />
                             }
                         </div>
                     </div>

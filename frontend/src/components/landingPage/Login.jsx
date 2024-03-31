@@ -1,18 +1,16 @@
 
 import { useState } from "react";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from "@/components/ui/dialog";
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -45,50 +43,37 @@ const Login = () => {
     }
 
     return (
-        <Dialog>
-        <DialogTrigger asChild className="mx-3">
-            <Button variant="link" size="lg">
-            Sign in
-            </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-            <DialogTitle>Sign in</DialogTitle>
-            <DialogDescription>Sign in with your email address</DialogDescription>
-            </DialogHeader>
+        <Card>
+            <CardHeader>
+            <CardTitle>Sign In</CardTitle>
+            <CardDescription>
+                Sign in with your email address
+            </CardDescription>
+            </CardHeader>
             <form onSubmit={handleSubmit}>
-            <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="email" className="text-left">
-                Email
-                </Label>
+            <CardContent className="space-y-2">
+            <div className="space-y-1">
+                <Label htmlFor="email">Email</Label>
                 <Input 
-                    id="email" 
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email:e.target.value})}
-                    className="col-span-3" />
+                id="email" 
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email:e.target.value})} />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="password" className="text-left">
-                Password
-                </Label>
+            <div className="space-y-1">
+                <Label htmlFor="password">Password</Label>
                 <Input 
-                    id="password"
-                    type="password" 
-                    value={formData.password}
-                    onChange={(e) => setFormData({...formData, password:e.target.value})}
-                    className="col-span-3" />
+                id="password" 
+                type="password" 
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password:e.target.value})} />
             </div>
-            </div>
-            <DialogFooter>
-                <Button type="submit" onClick={handleSubmit}>
-                    Login
-                </Button>
-            </DialogFooter>
+            </CardContent>
+            <CardFooter>
+            <Button type="submit" onClick={handleSubmit}>Sign In</Button>
+            </CardFooter>
             </form>
-        </DialogContent>
-        </Dialog>
+        </Card>
     );
 };
 
