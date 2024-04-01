@@ -6,7 +6,7 @@ function ProfileNavbar() {
     return (
         <div className='w-full border-b flex my-4'>
             <NavLink 
-                to="/profile/mylist"
+                to="/home/profile/mylist"
                 style={({ isActive }) =>
                     (isActive ? {textDecoration:'underline' , textDecorationColor:'#1a8917' , textDecorationThickness:'3px'} : undefined)
                 }
@@ -16,7 +16,7 @@ function ProfileNavbar() {
             </NavLink>
             
             <NavLink 
-                to="/profile/library"
+                to="/home/profile/library"
                 style={({ isActive }) =>
                     (isActive ? {textDecoration:'underline' , textDecorationColor:'#1a8917' , textDecorationThickness:'3px'} : undefined)
                 }

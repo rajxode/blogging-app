@@ -17,7 +17,11 @@ function BlogCard(props) {
         e.preventDefault();
         const id = _id;
         dispatch(getOneBlogThunk(id));
-        navigate(`/singleblog/${_id}`)
+        if(!loggedInUser){
+            navigate(`/singleblog/${_id}`)
+        } else {
+            navigate(`/home/singleblog/${_id}`)
+        }
     }
 
     return (

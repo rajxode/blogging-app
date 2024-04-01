@@ -4,6 +4,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authSelector } from '../reducers/authReducer';
 import { addCommentThunk, blogSelector, getOneBlogThunk } from '../reducers/blogReducer';
 import { toast } from 'react-toastify';
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card";
 
 function AddCommentForm() {
 
@@ -29,39 +38,43 @@ function AddCommentForm() {
     }
     
     return (
-        <div className='w-full p-2 flex flex-col justify-around min-h-1/4 h-auto bg-white rounded shadow-lg'>
-                <div className='w-full flex'>
+        <Card className="w-full">
+            <CardHeader>
+                <CardTitle className='flex'>
                     <div className='w-[45px] h-[45px] rounded-full bg-red-500'>
 
                     </div>
                     <div className='ml-3 flex items-center'>
                         <div>{loggedInUser.name}</div>
                     </div>
-                </div>
-                
-                <div className='w-full h-auto'>
-                    <textarea
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                <div>
+                    <Textarea 
                         type="text"
                         placeholder='What are your thoughts?'
                         value={commentContent}
                         onChange={(e) => setCommentContent(e.target.value)}
                         required
-                        className='w-full h-auto p-1 focus:outline-none' />    
+                        className='w-full h-auto p-1 border-none focus:outline-none' />  
                 </div>
-                
-                <div className='w-full flex justify-end text-sm'>
-                    <button className='mr-3'
-                        onClick={() => setCommentContent('')}>
-                        Cancel
-                    </button>
-                    <button className='w-1/5 bg-[#1a8917] h-[30px] rounded-full text-white'
-                        onClick={handlePostSubmit}>
-                        Post
-                    </button>
-                </div>
-                
-            </div>
+            </CardContent>
+            <CardFooter className="flex justify-end">
+                <button
+                    className='mr-4 text-sm'
+                    onClick={() => setCommentContent('')}>
+                    Cancel
+                </button>
+                <Button
+                    size="sm"
+                    className="rounded-full bg-[#1a8917]"
+                    onClick={handlePostSubmit}>
+                    Publish
+                </Button>
+            </CardFooter>
+        </Card>
     )
 }
 
-export default AddCommentForm
+export default AddCommentForm;

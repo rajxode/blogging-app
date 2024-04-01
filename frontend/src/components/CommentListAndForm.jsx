@@ -13,8 +13,7 @@ function CommentListAndForm() {
     const comments = singleBlog.comments.slice(0).reverse();
 
     return (
-        <div className='w-full mt-4 flex flex-col items-center 
-                p-3 rounded h-full'>
+        <div className='mt-4 flex flex-col items-center'>
             
             {
                 loggedInUser && <AddCommentForm />

@@ -12,7 +12,6 @@ import MyLibrary from './components/MyLibrary';
 import MyBlogs from './components/MyBlogs';
 import EditInfo from './components/EditInfo';
 import ChangePassword from './components/ChangePassword';
-import Theme from './components/Theme';
 import DeleteAccount from './components/DeleteAccount';
 import { jwtDecode } from 'jwt-decode';
 
@@ -60,6 +59,7 @@ function App() {
       <Route element={<ProtectedAuthRoute />} >
         <Route path='/' element={<Navbar />}>
           <Route index element={<LandingPage />} />
+          <Route path='singleblog/:id' element={<SingleBlogPage />} />
         </Route>
       </Route>
       <Route element={<ProtectedRoute />} >
@@ -76,7 +76,6 @@ function App() {
             <Route path='account' element={<EditInfo />} />
             <Route path='delete' element={<DeleteAccount />} />
             <Route path='password' element={<ChangePassword />} />
-            <Route path='theme' element={<Theme />} />
           </Route>
         </Route>
         </Route>

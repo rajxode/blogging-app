@@ -6,8 +6,16 @@ import { toast } from 'react-toastify';
 import { blogSelector, getOneBlogThunk, toggleLikeThunk } from '../reducers/blogReducer';
 import { authSelector } from '../reducers/authReducer';
 import BookmarkBlog from './BookmarkBlog';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import CommentListAndForm from './CommentListAndForm';
 
-function LikeAndCommentTab({showComments,setShowComments,comments,likes}) {
+function LikeAndCommentTab({comments,likes}) {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -69,11 +77,22 @@ function LikeAndCommentTab({showComments,setShowComments,comments,likes}) {
               {likes.length}
             </span>
           </div>
-          <div className='ml-5 flex items-center'
-              onClick={() => setShowComments(!showComments)}>
-            <span className='cursor-pointer'>
-              <i class="fa-regular fa-comment"></i>
-            </span>
+          <div className='ml-5 flex items-center'>
+            <Sheet>
+              <SheetTrigger asChild>
+                <span className='cursor-pointer'> 
+                <i class="fa-regular fa-comment"></i>
+                </span>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader className="mb-3">
+                  <SheetTitle>Comments</SheetTitle>
+                </SheetHeader>
+                <div>
+                  <CommentListAndForm />
+                </div>
+              </SheetContent>
+            </Sheet>
             &nbsp;
             <span className='text-sm'>
             {comments.length}

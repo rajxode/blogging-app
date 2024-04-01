@@ -103,24 +103,24 @@ function Navbar() {
                                                     border border-slate-100 rounded'>
                                                 <div className='flex flex-col justify-around py-2 border-b px-3'>
                                                     <div className='pb-2 md:hidden'>
-                                                        <Link to='/addblog' className='w-full hover:text-slate-600'>
+                                                        <Link to='/home/addblog' className='w-full hover:text-slate-600'>
                                                             <span><i class="fa-regular fa-pen-to-square"></i></span> Write
                                                         </Link>
                                                     </div>
                                                     <div className='pb-2'>
-                                                        <Link to='/profile/mylist' className='w-full hover:text-slate-600'>
+                                                        <Link to='/home/profile/mylist' className='w-full hover:text-slate-600'>
                                                             <span><i class="fa-regular fa-user"></i></span> Profile
                                                         </Link>
                                                     </div>
                                                     <div className='pb-2'>
-                                                        <Link to='/profile/library' className='w-full hover:text-slate-600'>
+                                                        <Link to='/home/profile/library' className='w-full hover:text-slate-600'>
                                                             <span><i class="fa-regular fa-bookmark"></i></span> Library
                                                         </Link>
                                                     </div>
                                                 </div>
                                                 <div className='flex flex-col justify-around py-2 border-b px-3'>
                                                     <div>
-                                                        <Link to='/settings/account' className='w-full hover:text-slate-600'>
+                                                        <Link to='/home/settings/account' className='w-full hover:text-slate-600'>
                                                             Settings
                                                         </Link>
                                                     </div>
